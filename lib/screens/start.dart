@@ -48,7 +48,7 @@ class _StartState extends State<StartPage> {
                       backgroundColor:
                           const Color.fromARGB(248, 248, 248, 248)),
                   child: const Text("Pit Scouting",
-                      style: TextStyle(fontSize: 32))),
+                      style: TextStyle(fontSize: 28))),
               const Padding(padding: EdgeInsets.all(10)),
               TextButton(
                   onPressed: matchScouting,
@@ -56,7 +56,7 @@ class _StartState extends State<StartPage> {
                       backgroundColor:
                           const Color.fromARGB(248, 248, 248, 248)),
                   child: const Text("Match Scouting",
-                      style: TextStyle(fontSize: 32))),
+                      style: TextStyle(fontSize: 28))),
             ],
           ),
         ) // This trailing comma makes auto-formatting nicer for build methods.
