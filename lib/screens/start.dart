@@ -42,19 +42,13 @@ class _StartState extends State<StartPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              TextButton(
+              ElevatedButton(
                   onPressed: pitScouting,
-                  style: TextButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromARGB(248, 248, 248, 248)),
                   child: const Text("Pit Scouting",
                       style: TextStyle(fontSize: 28))),
               const Padding(padding: EdgeInsets.all(10)),
-              TextButton(
+              ElevatedButton(
                   onPressed: matchScouting,
-                  style: TextButton.styleFrom(
-                      backgroundColor:
-                          const Color.fromARGB(248, 248, 248, 248)),
                   child: const Text("Match Scouting",
                       style: TextStyle(fontSize: 28))),
             ],
