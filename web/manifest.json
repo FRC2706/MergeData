@@ -1,11 +1,11 @@
 {
-    "name": "merge_data",
-    "short_name": "merge_data",
-    "start_url": ".",
+    "name": "MergeData",
+    "short_name": "MergeData",
+    "start_url": "frc2706.github.io/MergeData/",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#D6B9FA",
+    "theme_color": "#D6B9FA",
+    "description": "A FRC Scouting App",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
