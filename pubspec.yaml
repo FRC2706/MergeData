@@ -62,6 +62,12 @@ flutter:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+  assets:
+    - assets/games/2024.json
+    #- assets/games/2025.json
+    #- assets/games/2026.json
+    #- assets/games/2027.json
+    #- assets/games/2028.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

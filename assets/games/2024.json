@@ -1,5 +1,5 @@
 {
-  "prematch": [
+  "Pre-Match": [
     {
       "name": "Scouter Initials",
       "required": true,
@@ -43,7 +43,7 @@
       "shape": "circle 5 black red true"
     }
   ],
-  "auton": [
+  "Autonomous": [
     { 
       "name": "Leave Starting Zone",
       "type": "bool"

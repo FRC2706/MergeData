@@ -33,11 +33,22 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
           title:
               Text(widget.title, style: const TextStyle(color: Colors.black)),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[Text(data.toString())],
-          ),
-        ));
+        body: data.isEmpty
+            ? const Text("Shep did not find anything")
+            : ListView.builder(
+                itemCount: data.length,
+                itemBuilder: (context, index) => ExpansionTile(
+                        title: Text(
+                          data.keys.toList()[index].toString(),
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
+                        ),
+                        children: <Widget>[
+                          const Text('ahh'),
+                          const Padding(
+                            padding: EdgeInsets.all(10),
+                          )
+                        ])));
   }
 }
