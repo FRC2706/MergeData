@@ -3,9 +3,10 @@ import 'package:merge_data/screens/pit_scouting.dart';
 import 'package:merge_data/screens/match_scouting.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({super.key, required this.title});
+  const StartPage({super.key, required this.title, required this.year});
 
   final String title;
+  final int year;
 
   @override
   State<StartPage> createState() => _StartState();
@@ -16,7 +17,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => PitScoutingPage(title: "Pit Scouting"),
+        builder: (context) =>
+            PitScoutingPage(title: "Pit Scouting", year: widget.year),
       ),
     );
   }
@@ -25,7 +27,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => MatchScoutingPage(title: "Match Scouting"),
+        builder: (context) =>
+            MatchScoutingPage(title: "Match Scouting", year: widget.year),
       ),
     );
   }

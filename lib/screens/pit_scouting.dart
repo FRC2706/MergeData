@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PitScoutingPage extends StatefulWidget {
-  const PitScoutingPage({super.key, required this.title});
+  const PitScoutingPage({super.key, required this.title, required this.year});
 
   final String title;
+  final int year;
 
   @override
   State<PitScoutingPage> createState() => _PitScoutingState();
@@ -23,7 +24,6 @@ class _PitScoutingState extends State<PitScoutingPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[const Text("Shep is cool")],
           ),
-        ) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+        ));
   }
 }

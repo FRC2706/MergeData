@@ -1,17 +1,32 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class MatchScoutingPage extends StatefulWidget {
-  const MatchScoutingPage({super.key, required this.title});
+  const MatchScoutingPage({super.key, required this.title, required this.year});
 
   final String title;
+  final int year;
 
   @override
   State<MatchScoutingPage> createState() => _MatchScoutingState();
 }
 
 class _MatchScoutingState extends State<MatchScoutingPage> {
+  Map data = {};
+
+  Future<void> readJson() async {
+    final String response =
+        await rootBundle.loadString("assets/games/${widget.year}.json");
+    final decodedData = await json.decode(response);
+    setState(() {
+      data = decodedData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    readJson();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -21,9 +36,8 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[const Text("Shep is cool")],
+            children: <Widget>[Text(data.toString())],
           ),
-        ) // This trailing comma makes auto-formatting nicer for build methods.
-        );
+        ));
   }
 }
