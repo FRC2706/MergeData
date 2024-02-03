@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:merge_data/widgets/text_widget.dart';
 
 class MatchScoutingPage extends StatefulWidget {
   const MatchScoutingPage({super.key, required this.title, required this.year});
@@ -45,9 +46,14 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                           textAlign: TextAlign.center,
                         ),
                         children: <Widget>[
-                          const Text('ahh'),
-                          const Padding(
-                            padding: EdgeInsets.all(10),
+                          Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: ListView.builder(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemCount: data.values.toList()[index].length,
+                                itemBuilder: (context2, index2) =>
+                                    textWidget("ahhh")),
                           )
                         ])));
   }
