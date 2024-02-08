@@ -1,0 +1,61 @@
+{
+  "Pre-Match": [
+    {
+      "name": "Scouter Initials",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Event",
+      "defaultValue": "insert code for north bay",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Match Level",
+      "choices": ["Quals", "Semifinals", "Finals"],
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Match #",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Robot",
+      "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
+      "required": true,
+      "type": "radio"
+    },
+    { 
+      "name": "Team #", 
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Auto Start Position",
+      "code": "as",
+      "type": "clickable_image",
+      "filename": "2024/field_image.png",
+      "clickRestriction": "one",
+      "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
+      "shape": "circle 5 black red true"
+    }
+  ],
+  "Autonomous": [
+    { 
+      "name": "Leave Starting Zone",
+      "type": "bool"
+    },
+    { 
+      "name": "Amp Scores",
+      "type": "counter"
+    },
+    { 
+      "name": "Speaker Scores" ,
+      "type": "counter"
+    }
+  ]
+
+}
