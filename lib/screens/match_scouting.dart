@@ -35,7 +35,18 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
               Text(widget.title, style: const TextStyle(color: Colors.black)),
         ),
         body: data.isEmpty
-            ? const Text("Shep did not find anything")
+            ? Center(
+                child: Column(
+                children: <Widget>[
+                  Image.asset("assets/images/shep-loading.gif"),
+                  const Padding(
+                    padding: EdgeInsets.all(5),
+                  ),
+                  const Text(
+                      "Shep didn't find anything so he started dancing...",
+                      style: TextStyle(fontSize: 18))
+                ],
+              ))
             : ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (context, index) => ExpansionTile(
