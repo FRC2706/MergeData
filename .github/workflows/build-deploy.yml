@@ -26,7 +26,7 @@ jobs:
       run: flutter pub get
     
     - name: Build release project
-      run: flutter build web --base-href "/MergeData/"
+      run: flutter build web"
 
     - name: Upload production-ready build files
       uses: actions/upload-artifact@v2
