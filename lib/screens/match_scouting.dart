@@ -52,8 +52,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.values.toList()[index].length,
-                                itemBuilder: (context2, index2) =>
-                                    textWidget("ahhh")),
+                                itemBuilder: (context2, index2) => Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: textWidget(
+                                        "ahh", TextEditingController()))),
                           )
                         ])));
   }
