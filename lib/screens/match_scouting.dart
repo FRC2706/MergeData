@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:flutter/services.dart';
-import 'package:merge_data/widgets/text_widget.dart';
 
 class MatchScoutingPage extends StatefulWidget {
   const MatchScoutingPage({super.key, required this.title, required this.year});
@@ -107,10 +106,12 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                               )),
                                           Container(
                                               padding: const EdgeInsets.all(5),
-                                              child: textWidget(
-                                                  data.values.toList()[index]
-                                                      [index2]["name"],
-                                                  controllers[controlNum])),
+                                              child: TextField(
+                                                  decoration: const InputDecoration(
+                                                      border:
+                                                          OutlineInputBorder()),
+                                                  controller:
+                                                      controllers[controlNum])),
                                           const Padding(
                                               padding: EdgeInsets.all(10))
                                         ]);
