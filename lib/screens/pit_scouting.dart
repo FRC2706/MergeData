@@ -16,6 +16,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
   Map<String, String> radioValues = {};
   Map<String, dynamic> formFields = {};
   Map<String, bool> fieldErrors = {};
+  Map<String, String> textValues = {};
+  Map<String, String> numberValues = {};
 
   @override
   void initState() {
