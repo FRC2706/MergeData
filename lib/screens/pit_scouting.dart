@@ -40,10 +40,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
         if (field['type'] == 'radio' && (radioValues[field['name']] == null || radioValues[field['name']]!.isEmpty)) {
           fieldErrors[field['name']] = true;
           allFieldsValid = false;
-        } else if (field['type'] == 'text' && (textValues[field['name']] == null || textValues[field['name']]!.isEmpty)) {
-          fieldErrors[field['name']] = true;
-          allFieldsValid = false;
-        } else if (field['type'] == 'number' && (numberValues[field['name']] == null || numberValues[field['name']]!.isEmpty)) {
+        } else if ((field['type'] == 'text' || field['type'] == 'number') && (textValues[field['name']] == null || textValues[field['name']]!.trim().isEmpty)) {
           fieldErrors[field['name']] = true;
           allFieldsValid = false;
         } else {
@@ -117,6 +114,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
                     } else {
                       fieldErrors[field['name']] = false;
                     }
+                    textValues[field['name']] = value; // Update textValues
                     setState(() {});
                   },
                 ),
@@ -136,6 +134,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
                     } else {
                       fieldErrors[field['name']] = false;
                     }
+                    textValues[field['name']] = value; // Update textValues
                     setState(() {});
                   },
                 ),
