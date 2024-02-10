@@ -1,0 +1,78 @@
+{
+  "Pit": [
+    {
+      "name": "Team number",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "name": "Width (meters)",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "name": "Weight (kilos)",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "name": "Drivetrain type",
+      "choices": ["Swerve", "Tank", "Butterfly/Grasshopper", "Mechanum", "Other"],
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Other drivetrain",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Swerve ratio",
+      "choices": ["L1 (8.14:1)", "L2 (6.75:1)", "TL3 (6.12:1)", "L4 (5.14:1)", "Other ratio", "Not swerve"],
+      "required": false,  
+      "type": "radio"
+    },
+    {
+      "name": "Other swerve ratio",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Drivetrain motor",
+      "choices": ["Neo", "Falcon", "CIM", "Other"],
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Other drivetrain motor",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Number of batteries",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "name": "Floor pickup notes",
+      "choices": ["yes", "no"],
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Autos",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Scouting method",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Comments (go crazy)",
+      "required": true,
+      "type": "text"
+    }
+  ]
+}

@@ -68,6 +68,11 @@ flutter:
     #- assets/games/2026.json
     #- assets/games/2027.json
     #- assets/games/2028.json
+    - assets/pit/2024.json
+    #- assets/pit/2025.json
+    #- assets/pit/2026.json
+    #- assets/pit/2027.json
+    #- assets/pit/2028.json
     - assets/images/shep-loading.gif
 
   # An image asset can refer to one or more resolution-specific "variants", see
