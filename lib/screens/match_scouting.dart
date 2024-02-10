@@ -90,6 +90,15 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                       "text") {
                                     int controlNum = addController(data.values
                                         .toList()[index][index2]["name"]);
+                                    String placeholderText = "";
+                                    if (data.values
+                                        .toList()[index][index2]
+                                        .keys
+                                        .contains("defaultValue")) {
+                                      placeholderText =
+                                          data.values.toList()[index][index2]
+                                              ["defaultValue"];
+                                    }
                                     return Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -107,9 +116,11 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                           Container(
                                               padding: const EdgeInsets.all(5),
                                               child: TextField(
-                                                  decoration: const InputDecoration(
+                                                  decoration: InputDecoration(
                                                       border:
-                                                          OutlineInputBorder()),
+                                                          const OutlineInputBorder(),
+                                                      hintText:
+                                                          placeholderText),
                                                   controller:
                                                       controllers[controlNum])),
                                           const Padding(
