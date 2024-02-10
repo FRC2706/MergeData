@@ -91,23 +91,29 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                       "text") {
                                     int controlNum = addController(data.values
                                         .toList()[index][index2]["name"]);
-                                    return Column(children: [
-                                      Padding(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            data.values.toList()[index][index2]
-                                                ["name"],
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Container(
-                                          padding: const EdgeInsets.all(5),
-                                          child: textWidget(
-                                              data.values.toList()[index]
-                                                  [index2]["name"],
-                                              controllers[controlNum]))
-                                    ]);
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Text(
+                                                data.values.toList()[index]
+                                                    [index2]["name"],
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                          Container(
+                                              padding: const EdgeInsets.all(5),
+                                              child: textWidget(
+                                                  data.values.toList()[index]
+                                                      [index2]["name"],
+                                                  controllers[controlNum])),
+                                          const Padding(
+                                              padding: EdgeInsets.all(10))
+                                        ]);
                                   } else if (data.values.toList()[index][index2]
                                           ["type"] ==
                                       "radio") {
@@ -124,7 +130,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                               .toList()[index][index2]
                                                   ["choices"]
                                               .length +
-                                          1,
+                                          2,
                                       itemBuilder: (content3, index3) {
                                         if (index3 == 0) {
                                           return Padding(
@@ -136,7 +142,13 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                       fontSize: 18,
                                                       fontWeight:
                                                           FontWeight.bold)));
-                                        } else {
+                                        } else if (index3 > 0 &&
+                                            index3 <
+                                                data.values
+                                                        .toList()[index][index2]
+                                                            ["choices"]
+                                                        .length +
+                                                    1) {
                                           return RadioListTile<String>(
                                             title: Text(data.values
                                                     .toList()[index][index2]
@@ -155,6 +167,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                 }
                                               });
                                             },
+                                          );
+                                        } else {
+                                          return const Padding(
+                                            padding: EdgeInsets.all(10),
                                           );
                                         }
                                       },
