@@ -15,6 +15,8 @@ class MatchScoutingPage extends StatefulWidget {
 
 class _MatchScoutingState extends State<MatchScoutingPage> {
   Map data = {};
+  List<TextEditingController> controllers = [];
+  List<String> controllerNames = [];
 
   Future<void> readJson() async {
     final String response =
@@ -25,9 +27,22 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
     });
   }
 
+  int addController(String name) {
+    TextEditingController newController = TextEditingController();
+    int controllerCount = controllers.length;
+    controllers.add(newController);
+    controllerNames.add(name);
+    return controllerCount;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    readJson();
+  }
+
   @override
   Widget build(BuildContext context) {
-    readJson();
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -63,10 +78,20 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemCount: data.values.toList()[index].length,
-                                itemBuilder: (context2, index2) => Container(
-                                    padding: const EdgeInsets.all(5),
-                                    child: textWidget(
-                                        "ahh", TextEditingController()))),
+                                itemBuilder: (context2, index2) {
+                                  if (data.values.toList()[index][index2]
+                                          ["type"] ==
+                                      "text") {
+                                    int controlNum = addController(data.values
+                                        .toList()[index][index2]["name"]);
+                                    return Container(
+                                        padding: const EdgeInsets.all(5),
+                                        child: textWidget(
+                                            data.values.toList()[index][index2]
+                                                ["name"],
+                                            controllers[controlNum]));
+                                  }
+                                }),
                           )
                         ])));
   }
