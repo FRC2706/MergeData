@@ -13,7 +13,7 @@ class PitScoutingPage extends StatefulWidget {
 }
 
 class _PitScoutingState extends State<PitScoutingPage> {
-  String? _selectedRadioValue = '';
+  Map<String, String> radioValues = {};
   Map<String, dynamic> formFields = {};
 
   @override
@@ -68,20 +68,29 @@ class _PitScoutingState extends State<PitScoutingPage> {
             );
           } else if (field['type'] == 'radio') {
             return Column(
-              children: field['choices'].map<Widget>((choice) {
-                return ListTile(
-                  title: Text(choice),
-                  leading: Radio<String>(
-                    value: choice,
-                    groupValue: _selectedRadioValue, // You need to manage this state
-                    onChanged: (String? value) {
-                      setState(() {
-                        _selectedRadioValue = value;
-                      });
-                    },
-                  ),
-                );
-              }).toList(),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  field['name'],
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                ...field['choices'].map<Widget>((choice) {
+                  return ListTile(
+                    title: Text(choice),
+                    leading: Radio<String>(
+                      value: choice,
+                      groupValue: radioValues[field['name']],
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          setState(() {
+                            radioValues[field['name']] = value;
+                          });
+                        }
+                      },
+                    ),
+                  );
+                }).toList(),
+              ],
             );
           } else {
             return SizedBox.shrink(); // Return an empty widget for unsupported field types
