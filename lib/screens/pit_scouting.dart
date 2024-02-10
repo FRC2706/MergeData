@@ -38,10 +38,15 @@ class _PitScoutingState extends State<PitScoutingPage> {
         if (field['type'] == 'radio' && (radioValues[field['name']] == null || radioValues[field['name']]!.isEmpty)) {
           fieldErrors[field['name']] = true;
           allFieldsValid = false;
+        } else if (field['type'] == 'text' && (textValues[field['name']] == null || textValues[field['name']]!.isEmpty)) {
+          fieldErrors[field['name']] = true;
+          allFieldsValid = false;
+        } else if (field['type'] == 'number' && (numberValues[field['name']] == null || numberValues[field['name']]!.isEmpty)) {
+          fieldErrors[field['name']] = true;
+          allFieldsValid = false;
         } else {
           fieldErrors[field['name']] = false;
         }
-        // Add checks for other field types as needed
       }
     }
     return allFieldsValid;
