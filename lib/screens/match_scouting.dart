@@ -35,8 +35,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
   }
 
   void addController(String name) {
-    TextEditingController newController = TextEditingController();
-    controllers[name] = newController;
+    if (!controllers.keys.contains(name)) {
+      TextEditingController newController = TextEditingController();
+      controllers[name] = newController;
+    }
   }
 
   void addBoolValue(String name) {
