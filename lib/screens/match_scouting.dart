@@ -14,9 +14,10 @@ class MatchScoutingPage extends StatefulWidget {
 
 class _MatchScoutingState extends State<MatchScoutingPage> {
   Map data = {};
-  List<TextEditingController> controllers = [];
-  List<String> controllerNames = [];
+  Map<String, TextEditingController> controllers = {};
   Map<String, String> radioControllers = {};
+  Map<String, bool> boolValues = {};
+  Map<String, int> counterValues = {};
 
   void addRadioController(String name, String initValue) {
     if (!radioControllers.keys.contains(name)) {
@@ -36,9 +37,32 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
   int addController(String name) {
     TextEditingController newController = TextEditingController();
     int controllerCount = controllers.length;
-    controllers.add(newController);
-    controllerNames.add(name);
+    controllers[name] = newController;
     return controllerCount;
+  }
+
+  void addBoolValue(String name) {
+    if (!boolValues.keys.contains(name)) {
+      boolValues[name] = false;
+    }
+  }
+
+  void addCounter(String name) {
+    if (!counterValues.keys.contains(name)) {
+      counterValues[name] = 0;
+    }
+  }
+
+  void decrementCounter(String name) {
+    if ((counterValues[name] ?? 0) > 0) {
+      counterValues[name] = counterValues[name]! - 1;
+    }
+  }
+
+  void incrementCounter(String name) {
+    if ((counterValues[name] ?? 10000) < 10000) {
+      counterValues[name] = counterValues[name]! + 1;
+    }
   }
 
   @override
@@ -187,6 +211,178 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                         }
                                       },
                                     );
+                                  } else if (data.values.toList()[index][index2]
+                                          ["type"] ==
+                                      "number") {
+                                    int controlNum = addController(data.values
+                                        .toList()[index][index2]["name"]);
+                                    String placeholderText = "";
+                                    if (data.values
+                                        .toList()[index][index2]
+                                        .keys
+                                        .contains("defaultValue")) {
+                                      placeholderText =
+                                          data.values.toList()[index][index2]
+                                              ["defaultValue"];
+                                    }
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Text(
+                                                data.values.toList()[index]
+                                                    [index2]["name"],
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                          Container(
+                                              padding: const EdgeInsets.all(5),
+                                              child: TextField(
+                                                decoration: InputDecoration(
+                                                    border:
+                                                        const OutlineInputBorder(),
+                                                    hintText: placeholderText),
+                                                controller: controllers[
+                                                    data.values.toList()[index]
+                                                        [index2]["name"]],
+                                                keyboardType:
+                                                    TextInputType.number,
+                                                inputFormatters: [
+                                                  FilteringTextInputFormatter
+                                                      .digitsOnly
+                                                ],
+                                              )),
+                                          const Padding(
+                                              padding: EdgeInsets.all(10))
+                                        ]);
+                                  } else if (data.values.toList()[index][index2]
+                                          ["type"] ==
+                                      "bool") {
+                                    addBoolValue(data.values.toList()[index]
+                                        [index2]["name"]);
+                                    return Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Container(
+                                            padding: const EdgeInsets.all(5),
+                                            child: Text(
+                                              data.values.toList()[index]
+                                                  [index2]["name"],
+                                              style: const TextStyle(
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                        Row(children: <Widget>[
+                                          Checkbox(
+                                            value: boolValues[
+                                                data.values.toList()[index]
+                                                    [index2]["name"]],
+                                            onChanged: (bool? value) {
+                                              setState(() {
+                                                if (value != null) {
+                                                  boolValues[data.values
+                                                          .toList()[index]
+                                                      [index2]["name"]] = value;
+                                                }
+                                              });
+                                            },
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.all(5)),
+                                          Text(
+                                            boolValues[data.values
+                                                            .toList()[index]
+                                                        [index2]["name"]] ??
+                                                    false
+                                                ? "Yes"
+                                                : "No",
+                                            style: const TextStyle(
+                                              fontSize: 18,
+                                            ),
+                                          )
+                                        ]),
+                                        const Padding(
+                                            padding: EdgeInsets.all(10))
+                                      ],
+                                    );
+                                  } else if (data.values.toList()[index][index2]
+                                          ["type"] ==
+                                      "counter") {
+                                    addCounter(data.values.toList()[index]
+                                        [index2]["name"]);
+                                    return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                              padding: const EdgeInsets.all(5),
+                                              child: Text(
+                                                data.values.toList()[index]
+                                                    [index2]["name"],
+                                                style: const TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight:
+                                                        FontWeight.bold),
+                                              )),
+                                          Row(
+                                            children: <Widget>[
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    decrementCounter(data.values
+                                                            .toList()[index]
+                                                        [index2]["name"]);
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  shape: CircleBorder(),
+                                                ),
+                                                child: const Text("-",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18)),
+                                              ),
+                                              const Padding(
+                                                  padding: EdgeInsets.all(5)),
+                                              Text(
+                                                  counterValues[data.values
+                                                              .toList()[index]
+                                                          [index2]["name"]]
+                                                      .toString(),
+                                                  style: const TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 18)),
+                                              const Padding(
+                                                  padding: EdgeInsets.all(5)),
+                                              ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    incrementCounter(data.values
+                                                            .toList()[index]
+                                                        [index2]["name"]);
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  shape: CircleBorder(),
+                                                ),
+                                                child: const Text("+",
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 18)),
+                                              ),
+                                            ],
+                                          ),
+                                          const Padding(
+                                              padding: EdgeInsets.all(10))
+                                        ]);
                                   }
                                 }),
                           )
