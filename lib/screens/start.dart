@@ -54,6 +54,7 @@ class _StartState extends State<StartPage> {
         ),
         floatingActionButton: FloatingActionButton(
             onPressed: launchIssues,
+            tooltip: 'Report an issue',
             child: Padding(
                 padding: const EdgeInsets.all(10),
                 child: SvgPicture.asset("assets/images/github.svg"))),
