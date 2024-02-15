@@ -34,11 +34,9 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
     });
   }
 
-  int addController(String name) {
+  void addController(String name) {
     TextEditingController newController = TextEditingController();
-    int controllerCount = controllers.length;
     controllers[name] = newController;
-    return controllerCount;
   }
 
   void addBoolValue(String name) {
@@ -112,8 +110,8 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                   if (data.values.toList()[index][index2]
                                           ["type"] ==
                                       "text") {
-                                    int controlNum = addController(data.values
-                                        .toList()[index][index2]["name"]);
+                                    addController(data.values.toList()[index]
+                                        [index2]["name"]);
                                     String placeholderText = "";
                                     if (data.values
                                         .toList()[index][index2]
@@ -145,8 +143,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                           const OutlineInputBorder(),
                                                       hintText:
                                                           placeholderText),
-                                                  controller:
-                                                      controllers[controlNum])),
+                                                  controller: controllers[data
+                                                          .values
+                                                          .toList()[index]
+                                                      [index2]["name"]])),
                                           const Padding(
                                               padding: EdgeInsets.all(10))
                                         ]);
@@ -214,8 +214,8 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                   } else if (data.values.toList()[index][index2]
                                           ["type"] ==
                                       "number") {
-                                    int controlNum = addController(data.values
-                                        .toList()[index][index2]["name"]);
+                                    addController(data.values.toList()[index]
+                                        [index2]["name"]);
                                     String placeholderText = "";
                                     if (data.values
                                         .toList()[index][index2]
@@ -340,7 +340,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  shape: CircleBorder(),
+                                                  shape: const CircleBorder(),
                                                 ),
                                                 child: const Text("-",
                                                     style: TextStyle(
@@ -370,7 +370,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                   });
                                                 },
                                                 style: ElevatedButton.styleFrom(
-                                                  shape: CircleBorder(),
+                                                  shape: const CircleBorder(),
                                                 ),
                                                 child: const Text("+",
                                                     style: TextStyle(
@@ -384,6 +384,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                               padding: EdgeInsets.all(10))
                                         ]);
                                   }
+                                  return const Text("Failed to create widget");
                                 }),
                           )
                         ])));
