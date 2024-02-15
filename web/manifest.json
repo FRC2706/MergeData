@@ -1,7 +1,7 @@
 {
     "name": "MergeData",
     "short_name": "MergeData",
-    "start_url": "mergedata.ca",
+    "start_url": "https://mergedata.ca",
     "display": "standalone",
     "background_color": "#D6B9FA",
     "theme_color": "#D6B9FA",
