@@ -56,7 +56,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Please fill out all required fields before saving.')),
       );
-      setState(() {}); // Trigger a rebuild to show error messages
+      setState(() {}); // Trigger a rebuild to show error messages, feel free to refactor if there is a better way
       return;
     }
 
@@ -104,6 +104,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
               children: [
                 TextFormField(
                   keyboardType: TextInputType.number,
+                  initialValue: textValues[field['name']] ?? '', // Use the stored value
                   decoration: InputDecoration(
                     labelText: field['name'],
                     errorText: showError ? 'This field is required' : null,
@@ -124,6 +125,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
             return Column(
               children: [
                 TextFormField(
+                  initialValue: textValues[field['name']] ?? '', // Use the stored value
                   decoration: InputDecoration(
                     labelText: field['name'],
                     errorText: showError ? 'This field is required' : null,
