@@ -35,9 +35,8 @@
     },
     {
       "name": "Auto Start Position",
-      "code": "as",
       "type": "clickable_image",
-      "filename": "2024/field_image.png",
+      "filename": "images/field_image.png",
       "clickRestriction": "one",
       "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
       "shape": "circle 5 black red true"
@@ -49,12 +48,85 @@
       "type": "bool"
     },
     {
-      "name": "Amp Scores",
+      "name": "Auto Amp Scores",
       "type": "counter"
     },
     {
-      "name": "Speaker Scores",
+      "name": "Auto Speaker Scores",
       "type": "counter"
+    }
+  ],
+  "TeleOp": [
+    {
+      "name": "TeleOp Amp Scores",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Speaker Scores",
+      "type": "counter"
+    },
+    {
+      "name": "Times Amplified",
+      "type": "counter"
+    },
+    {
+      "name": "Pickup From",
+      "type": "radio",
+      "choices": ["Source", "Floor", "Both", "Not Attempted"],
+      "required": true
+    }
+  ],
+  "EndGame": [
+    {
+      "name": "Final Status",
+      "type": "radio",
+      "required": true,
+      "choices": ["Parked", "Onstage", "Onstage (Spotlit)", "Harmony", "Attempted but failed :(", "Not attempted"]
+    },
+    {
+      "name": "Note in Trap",
+      "type": "bool"
+    }
+  ],
+  "PostMatch": [
+    {
+      "name": "Driver Skill",
+      "type": "radio",
+      "required": true,
+      "choices": ["Not Effective", "Average", "Very Effective", "Not Observed"]
+    },
+    {
+      "name": "Defense Rating",
+      "type": "radio",
+      "required": true,
+      "choices": ["Below Average", "Average", "Good", "Excellent", "Did not play defense :("]
+    
+    },
+    {
+      "name": "Speed Rating",
+      "type": "radio",
+      "required": true,
+      "choices": ["1 (slow)", "2", "3", "4", "5 (fast)"]
+    },
+    {
+      "name": "Died (Immobilized)",
+      "type": "bool"
+    },
+    {
+      "name": "Almost Tipped Over",
+      "type": "bool"
+    },
+    {
+      "name": "Dropped Notes (>2)",
+      "type": "bool"
+    },
+    {
+      "name": "Make good alliance partner?",
+      "type": "bool"
+    },
+    {
+      "name": "Comments",
+      "type": "text"
     }
   ]
 }
