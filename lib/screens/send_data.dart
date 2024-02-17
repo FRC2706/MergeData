@@ -3,10 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 
-class send_data extends StatelessWidget {
+class SendData extends StatelessWidget {
   final Map<String, String> data;
 
-  send_data({Key? key, required this.data}) : super(key: key);
+  SendData({Key? key, required this.data}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

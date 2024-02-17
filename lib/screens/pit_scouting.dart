@@ -75,7 +75,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
               // redirect to `send_data.dart` and pass the data
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => send_data(data: textValues)),
+                MaterialPageRoute(builder: (context) => SendData(data: textValues)),
               );  
               },
             ),
