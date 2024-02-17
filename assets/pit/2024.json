@@ -1,6 +1,11 @@
 {
   "Pit": [
     {
+      "name": "Scout name",
+      "required": true,
+      "type": "text"
+    },
+    {
       "name": "Team number",
       "required": true,
       "type": "number"
