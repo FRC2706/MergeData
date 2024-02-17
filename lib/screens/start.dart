@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merge_data/screens/pit_scouting.dart';
 import 'package:merge_data/screens/match_scouting.dart';
+import 'package:merge_data/screens/scan.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -15,12 +16,32 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartState extends State<StartPage> {
+  void matchScouting() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            MatchScoutingPage(title: "Match Scouting", year: widget.year),
+      ),
+    );
+  }
+
   void pitScouting() {
     Navigator.push(
       context,
       MaterialPageRoute(
         builder: (context) =>
             PitScoutingPage(title: "Pit Scouting", year: widget.year),
+      ),
+    );
+  }
+
+  void scanResults() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            ScanResultsPage(title: "Scan Results", year: widget.year),
       ),
     );
   }
@@ -32,16 +53,6 @@ class _StartState extends State<StartPage> {
     } else {
       throw 'Could not launch $url';
     }
-  }
-
-  void matchScouting() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            MatchScoutingPage(title: "Match Scouting", year: widget.year),
-      ),
-    );
   }
 
   @override
@@ -63,13 +74,18 @@ class _StartState extends State<StartPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               ElevatedButton(
+                  onPressed: matchScouting,
+                  child: const Text("Match Scouting",
+                      style: TextStyle(fontSize: 28))),
+              const Padding(padding: EdgeInsets.all(10)),
+              ElevatedButton(
                   onPressed: pitScouting,
                   child: const Text("Pit Scouting",
                       style: TextStyle(fontSize: 28))),
               const Padding(padding: EdgeInsets.all(10)),
               ElevatedButton(
-                  onPressed: matchScouting,
-                  child: const Text("Match Scouting",
+                  onPressed: scanResults,
+                  child: const Text("Scan Results",
                       style: TextStyle(fontSize: 28))),
             ],
           ),
