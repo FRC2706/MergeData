@@ -45,7 +45,7 @@
     {
       "name": "Drivetrain motor",
       "choices": ["Neo", "Falcon", "CIM", "Other"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
@@ -55,13 +55,13 @@
     },
     {
       "name": "Number of batteries",
-      "required": true,
+      "required": false,
       "type": "number"
     },
     {
       "name": "Floor pickup notes",
       "choices": ["yes", "no"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
