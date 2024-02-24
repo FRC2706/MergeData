@@ -38,7 +38,7 @@ jobs:
       run: flutter build apk --release
 
     - name: Build IPA
-      run: flutter build ios --no-codesign
+      run: flutter build ios
 
     - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
