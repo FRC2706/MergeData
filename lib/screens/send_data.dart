@@ -25,39 +25,38 @@ class _SendDataState extends State<SendData> {
 
   Future<void> loadEnv() async {
     await dotenv.load(fileName: ".env");
-    print(dotenv.env['GOOGLE_SHEETS_API_KEY']);
-    _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_API_KEY']!);
+    _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
     _spreadsheetId = dotenv.env['SPREADSHEET_ID']!;
     _worksheetName = dotenv.env['WORKSHEET_NAME']!;
   }
 
   Future<void> sendDataToGoogleSheets() async {
-  await loadEnv(); // Wait for loadEnv to complete before proceeding
-  String message = '';
-  try {
-    final ss = await _gsheets.spreadsheet(_spreadsheetId);
-    print('Spreadsheet: $ss');
-    final sheet = ss.worksheetByTitle(_worksheetName);
-    if (sheet != null) {
-      final values = widget.data.values.toList();
-      final result = await sheet.values.appendRow(values);
-      print('Result: $result');
+    await loadEnv(); // Wait for loadEnv to complete before proceeding
+    String message = '';
+    try {
+      final ss = await _gsheets.spreadsheet(_spreadsheetId);
+      print('Spreadsheet: $ss');
+      final sheet = ss.worksheetByTitle(_worksheetName);
+      if (sheet != null) {
+        final values = widget.data.values.toList();
+        final result = await sheet.values.appendRow(values);
+        print('Result: $result');
 
-      if (result) {
-        message = 'Shep collected the data, thanks scout! o7';
+        if (result) {
+          message = 'Shep collected the data, thanks scout! o7';
+        } else {
+          message = 'Shep encountered an error...';
+        }
       } else {
-        message = 'Shep encountered an error...';
+        message = 'Shep did not find the worksheet...';
       }
-    } else {
-      message = 'Shep did not find the worksheet...';
+    } catch (e) {
+      message = 'Error!: $e';
+      print(e);
     }
-  } catch (e) {
-    message = 'Error!: $e';
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text(message))
-  );
-}
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +108,8 @@ class _SendDataState extends State<SendData> {
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Confirmation'),
-                          content: Text('Make sure you have an internet connection to do this!'),
+                          content: Text(
+                              'Make sure you have an internet connection to do this!'),
                           actions: [
                             TextButton(
                               child: Text('SEND IT BABY!'),
@@ -124,8 +124,10 @@ class _SendDataState extends State<SendData> {
                                         mainAxisSize: MainAxisSize.min,
                                         children: [
                                           CircularProgressIndicator(),
-                                          Text("Shep is collecting the data..."),
-                                          Image.asset('assets/images/shep-loading.gif'),
+                                          Text(
+                                              "Shep is collecting the data..."),
+                                          Image.asset(
+                                              'assets/images/shep-loading.gif'),
                                           TextButton(
                                             child: Text('Cancel'),
                                             onPressed: () {
