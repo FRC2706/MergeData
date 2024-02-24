@@ -60,6 +60,37 @@ class _SendDataState extends State<SendData> {
           return Scaffold(
             appBar: AppBar(
               title: Text('Send Data'),
+              actions: <Widget>[
+                IconButton(
+                  icon: const Icon(Icons.home),
+                  tooltip: 'Return to Home',
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          title: Text('Are you sure you want to return to home?'),
+                          content: Text('All unsaved data will be sent to the shadow realm.', style: TextStyle(fontSize: 12, color: Colors.red)),
+                          actions: [
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () {
+                                Navigator.of(context).popUntil((route) => route.isFirst);
+                              },
+                            ),
+                            TextButton(
+                              child: Text('No'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
             ),
             body: ListView(
               children: [
