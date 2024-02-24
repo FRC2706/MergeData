@@ -29,7 +29,8 @@ jobs:
       run: |
         echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
         echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
-        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
+        echo GAME_WORKSHEET_NAME=${{ secrets.GAME_WORKSHEET_NAME }} >> .env
+        echo PIT_WORKSHEET_NAME=${{ secrets.PIT_WORKSHEET_NAME }} >> .env
     
     - name: Build web release project
       run: flutter build web
@@ -54,3 +55,32 @@ jobs:
       with:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk
+
+    - name: Bump version and push tag
+      id: create_tag
+      uses: anothrNick/github-tag-action@1.26.0
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        WITH_V: true
+        DEFAULT_BUMP: patch
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ steps.create_tag.outputs.new_tag }}
+        release_name: Release ${{ steps.create_tag.outputs.new_tag }}
+        draft: false
+        prerelease: false
+
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./build/app/outputs/flutter-apk/app-release.apk
+        asset_name: app-release.apk
+        asset_content_type: application/vnd.android.package-archive
