@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'send_data.dart';
 
 class PitScoutingPage extends StatefulWidget {
   PitScoutingPage({Key? key, required this.title, required this.year}) : super(key: key);
@@ -68,11 +69,14 @@ class _PitScoutingState extends State<PitScoutingPage> {
           content: Text('Are you sure you want to send the data?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Send away!'),
+              child: Text('Prepare to send!'),
               onPressed: () {
-                // Placeholder for saving data
-                // TODO: Implement save data functionality
-                Navigator.of(context).pop();
+              Navigator.of(context).pop();
+              // redirect to `send_data.dart` and pass the data
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SendData(data: textValues)),
+              );  
               },
             ),
             TextButton(

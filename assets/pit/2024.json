@@ -1,8 +1,13 @@
 {
   "Pit": [
     {
-      "name": "Team number",
+      "name": "Scout name",
       "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Team number",
+      "required": false,
       "type": "number"
     },
     {
@@ -18,7 +23,7 @@
     {
       "name": "Drivetrain type",
       "choices": ["Swerve", "Tank", "Butterfly/Grasshopper", "Mechanum", "Other"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
@@ -40,7 +45,7 @@
     {
       "name": "Drivetrain motor",
       "choices": ["Neo", "Falcon", "CIM", "Other"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
@@ -50,28 +55,28 @@
     },
     {
       "name": "Number of batteries",
-      "required": true,
+      "required": false,
       "type": "number"
     },
     {
       "name": "Floor pickup notes",
       "choices": ["yes", "no"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
       "name": "Autos",
-      "required": true,
+      "required": false,
       "type": "text"
     },
     {
       "name": "Scouting method",
-      "required": true,
+      "required": false,
       "type": "text"
     },
     {
       "name": "Comments (go crazy)",
-      "required": true,
+      "required": false,
       "type": "text"
     }
   ]
