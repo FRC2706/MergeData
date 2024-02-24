@@ -24,27 +24,21 @@ jobs:
     
     - name: Get dependencies
       run: flutter pub get
+
+    - name: Create .env file
+      run: |
+        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
+        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
+        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
     
     - name: Build web release project
       run: flutter build web
-      env:
-        GOOGLE_SHEETS_DATA: ${{ secrets.GOOGLE_SHEETS_DATA }}
-        SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        WORKSHEET_NAME: ${{ secrets.WORKSHEET_NAME }}
 
     - name: Build APK
       run: flutter build apk --release
-      env:
-        GOOGLE_SHEETS_DATA: ${{ secrets.GOOGLE_SHEETS_DATA }}
-        SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        WORKSHEET_NAME: ${{ secrets.WORKSHEET_NAME }}
 
     - name: Build IPA
       run: flutter build ios --release --no-codesign
-      env:
-        GOOGLE_SHEETS_DATA: ${{ secrets.GOOGLE_SHEETS_DATA }}
-        SPREADSHEET_ID: ${{ secrets.SPREADSHEET_ID }}
-        WORKSHEET_NAME: ${{ secrets.WORKSHEET_NAME }}
 
     - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
