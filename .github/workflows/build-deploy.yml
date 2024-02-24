@@ -46,8 +46,8 @@ jobs:
     - name: Upload IPA
       uses: actions/upload-artifact@v2
       with:
-        name: Runner.app
-        path: build/ios/iphoneos/Runner.app
+        name: app.ipa
+        path: build/ios/ipa/merge_data.ipa
 
   build_apk:
     name: Build APK
