@@ -105,7 +105,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),

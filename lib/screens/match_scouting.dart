@@ -40,11 +40,13 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
     });
   }
 
+  /*
   void addController(String name) {
     if (!textValues.keys.contains(name)) {
       textValues[name] = "";
     }
   }
+  */
 
   void addBoolValue(String name) {
     if (!boolValues.keys.contains(name)) {
@@ -302,8 +304,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                 if (data.values.toList()[index - 1][index2]
                                         ["type"] ==
                                     "text") {
-                                  addController(data.values.toList()[index - 1]
-                                      [index2]["name"]);
+                                  //addController(data.values.toList()[index - 1][index2]["name"]);
                                   String placeholderText = "";
                                   if (data.values
                                       .toList()[index - 1][index2]
@@ -426,8 +427,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                 } else if (data.values.toList()[index - 1]
                                         [index2]["type"] ==
                                     "number") {
-                                  addController(data.values.toList()[index - 1]
-                                      [index2]["name"]);
+                                  //(data.values.toList()[index - 1][index2]["name"]);
                                   String placeholderText = "";
                                   if (data.values
                                       .toList()[index - 1][index2]
