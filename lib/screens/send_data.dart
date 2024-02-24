@@ -7,8 +7,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class SendData extends StatefulWidget {
   final Map<String, String> data;
+  final bool isGame;
 
-  SendData({Key? key, required this.data}) : super(key: key);
+  SendData({Key? key, required this.data, required this.isGame})
+      : super(key: key);
 
   @override
   _SendDataState createState() => _SendDataState();
@@ -21,13 +23,15 @@ class _SendDataState extends State<SendData> {
 
   late GSheets _gsheets;
   late String _spreadsheetId;
-  late String _worksheetName;
+  late String _gameWorksheetName;
+  late String _pitWorksheetName;
 
   Future<void> loadEnv() async {
     await dotenv.load(fileName: ".env");
     _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
     _spreadsheetId = dotenv.env['SPREADSHEET_ID']!;
-    _worksheetName = dotenv.env['WORKSHEET_NAME']!;
+    _gameWorksheetName = dotenv.env['GAME_WORKSHEET_NAME']!;
+    _pitWorksheetName = dotenv.env['PIT_WORKSHEET_NAME']!;
   }
 
   Future<void> sendDataToGoogleSheets() async {
@@ -35,7 +39,12 @@ class _SendDataState extends State<SendData> {
     String message = '';
     try {
       final ss = await _gsheets.spreadsheet(_spreadsheetId);
-      final sheet = ss.worksheetByTitle(_worksheetName);
+      var sheet;
+      if (widget.isGame) {
+        sheet = ss.worksheetByTitle(_gameWorksheetName);
+      } else {
+        sheet = ss.worksheetByTitle(_pitWorksheetName);
+      }
       if (sheet != null) {
         final values = widget.data.values.toList();
         final result = await sheet.values.appendRow(values);
@@ -116,6 +125,9 @@ class _SendDataState extends State<SendData> {
                       size: 200.0,
                     ),
                   ),
+                const Padding(
+                  padding: EdgeInsets.all(5),
+                )
               ],
             ),
             floatingActionButton: Row(

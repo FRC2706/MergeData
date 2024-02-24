@@ -85,7 +85,10 @@ class _PitScoutingState extends State<PitScoutingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SendData(data: getBunchValues())),
+                      builder: (context) => SendData(
+                            data: getBunchValues(),
+                            isGame: false,
+                          )),
                 );
               },
             ),
