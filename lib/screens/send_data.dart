@@ -35,27 +35,19 @@ class _SendDataState extends State<SendData> {
     String message = '';
     try {
       final ss = await _gsheets.spreadsheet(_spreadsheetId);
-      print('Spreadsheet: $ss');
       final sheet = ss.worksheetByTitle(_worksheetName);
       if (sheet != null) {
         final values = widget.data.values.toList();
         final result = await sheet.values.appendRow(values);
-        print('Result: $result');
-
         if (result) {
           message = 'Shep collected the data, thanks scout! o7';
-        } else {
-          message = 'Shep encountered an error...';
         }
-      } else {
-        message = 'Shep did not find the worksheet...';
       }
     } catch (e) {
-      message = 'Error!: $e';
+      message = 'Shep Error!: $e';
       print(e);
     }
-    ScaffoldMessenger.of(context)
-        .showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
     Navigator.of(context).pop();
   }
 
