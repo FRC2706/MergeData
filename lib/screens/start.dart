@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:merge_data/screens/pit_scouting.dart';
 import 'package:merge_data/screens/match_scouting.dart';
+import 'package:merge_data/screens/scan.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class StartPage extends StatefulWidget {
   const StartPage({super.key, required this.title, required this.year});
@@ -13,16 +16,6 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartState extends State<StartPage> {
-  void pitScouting() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) =>
-            PitScoutingPage(title: "Pit Scouting", year: widget.year),
-      ),
-    );
-  }
-
   void matchScouting() {
     Navigator.push(
       context,
@@ -33,6 +26,35 @@ class _StartState extends State<StartPage> {
     );
   }
 
+  void pitScouting() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            PitScoutingPage(title: "Pit Scouting", year: widget.year),
+      ),
+    );
+  }
+
+  void scanResults() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            ScanResultsPage(title: "Scan Results", year: widget.year),
+      ),
+    );
+  }
+
+  launchIssues() async {
+    Uri url = Uri.parse('https://github.com/FRC2706/MergeData/issues');
+    if (await launchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,18 +63,29 @@ class _StartState extends State<StartPage> {
           title:
               Text(widget.title, style: const TextStyle(color: Colors.black)),
         ),
+        floatingActionButton: FloatingActionButton(
+            onPressed: launchIssues,
+            tooltip: 'Report an issue',
+            child: Padding(
+                padding: const EdgeInsets.all(10),
+                child: SvgPicture.asset("assets/images/github.svg"))),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
+              ElevatedButton(
+                  onPressed: matchScouting,
+                  child: const Text("Match Scouting",
+                      style: TextStyle(fontSize: 28))),
+              const Padding(padding: EdgeInsets.all(10)),
               ElevatedButton(
                   onPressed: pitScouting,
                   child: const Text("Pit Scouting",
                       style: TextStyle(fontSize: 28))),
               const Padding(padding: EdgeInsets.all(10)),
               ElevatedButton(
-                  onPressed: matchScouting,
-                  child: const Text("Match Scouting",
+                  onPressed: scanResults,
+                  child: const Text("Scan Results",
                       style: TextStyle(fontSize: 28))),
             ],
           ),

@@ -9,9 +9,9 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
-    runs-on: ubuntu-latest
+  build_web_and_ios:
+    name: Build Web and iOS
+    runs-on: macos-latest
     
     steps:
     - name: Checkout code
@@ -24,23 +24,70 @@ jobs:
     
     - name: Get dependencies
       run: flutter pub get
+
+    - name: Create .env file
+      run: |
+        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
+        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
+        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
     
-    - name: Build release project
+    - name: Build web release project
       run: flutter build web
 
-    - name: Upload production-ready build files
+    - name: Build IPA
+      run: flutter build ios --release --no-codesign
+
+    - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
       with:
         name: production-files
         path: ./build/web
-  
+
+    - name: Upload IPA
+      uses: actions/upload-artifact@v2
+      with:
+        name: Runner.app
+        path: build/ios/iphoneos/Runner.app
+
+  build_apk:
+    name: Build APK
+    needs: build_web_and_ios
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '3.x'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Create .env file
+      run: |
+        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
+        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
+        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
   deploy:
     name: Deploy
-    needs: build
+    needs: build_apk
     runs-on: ubuntu-latest
     
     steps:
-    - name: Download artifact
+    - name: Download web artifact
       uses: actions/download-artifact@v2
       with:
         name: production-files

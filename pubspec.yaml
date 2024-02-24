@@ -1,5 +1,5 @@
 name: merge_data
-description: "A new Flutter project."
+description: "A new scouting app."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -31,10 +31,17 @@ dependencies:
   flutter:
     sdk: flutter
 
+  url_launcher:
+  flutter_svg:
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  qr_flutter: ^4.1.0
+  qr_code_scanner: ^1.0.1
+  gsheets: ^0.5.0
+  flutter_dotenv: ^5.1.0
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +75,14 @@ flutter:
     #- assets/games/2026.json
     #- assets/games/2027.json
     #- assets/games/2028.json
+    - assets/pit/2024.json
+    #- assets/pit/2025.json
+    #- assets/pit/2026.json
+    #- assets/pit/2027.json
+    #- assets/pit/2028.json
+    - assets/images/shep-loading.gif
+    - assets/images/github.svg
+    - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
