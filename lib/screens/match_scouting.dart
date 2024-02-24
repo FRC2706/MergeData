@@ -189,7 +189,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SendData(data: getBunchValues())),
+                      builder: (context) => SendData(
+                            data: getBunchValues(),
+                            isGame: true,
+                          )),
                 );
               },
             ),
