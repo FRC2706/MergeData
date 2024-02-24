@@ -7,7 +7,7 @@
     },
     {
       "name": "Team number",
-      "required": true,
+      "required": false,
       "type": "number"
     },
     {
@@ -23,7 +23,7 @@
     {
       "name": "Drivetrain type",
       "choices": ["Swerve", "Tank", "Butterfly/Grasshopper", "Mechanum", "Other"],
-      "required": true,
+      "required": false,
       "type": "radio"
     },
     {
@@ -66,17 +66,17 @@
     },
     {
       "name": "Autos",
-      "required": true,
+      "required": false,
       "type": "text"
     },
     {
       "name": "Scouting method",
-      "required": true,
+      "required": false,
       "type": "text"
     },
     {
       "name": "Comments (go crazy)",
-      "required": true,
+      "required": false,
       "type": "text"
     }
   ]
