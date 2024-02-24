@@ -56,6 +56,7 @@ class _SendDataState extends State<SendData> {
     }
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
+    Navigator.of(context).pop();
   }
 
   @override
