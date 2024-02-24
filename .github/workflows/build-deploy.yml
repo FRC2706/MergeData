@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     
     steps:
     - name: Checkout code
@@ -38,7 +38,7 @@ jobs:
       run: flutter build apk --release
 
     - name: Build IPA
-      run: flutter build ios
+      run: flutter build ios --release --no-codesign
 
     - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
