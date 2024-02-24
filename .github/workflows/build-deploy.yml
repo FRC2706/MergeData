@@ -81,20 +81,53 @@ jobs:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk
 
-  deploy:
-    name: Deploy
-    needs: build_apk
+  release:
+    name: Create Release
+    needs: [build_web_and_ios, build_apk]
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Download web artifact
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Download IPA
       uses: actions/download-artifact@v2
       with:
-        name: production-files
-        path: ./build
+        name: app.ipa
+        path: .
 
-    - name: Deploy to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Download APK
+      uses: actions/download-artifact@v2
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+        name: app-release.apk
+        path: .
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        draft: false
+        prerelease: false
+
+    - name: Upload IPA Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./merge_data.ipa
+        asset_name: merge_data.ipa
+        asset_content_type: application/octet-stream
+
+    - name: Upload APK Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./app-release.apk
+        asset_name: app-release.apk
+        asset_content_type: application/vnd.android.package-archive
