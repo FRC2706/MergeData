@@ -85,7 +85,7 @@ class _PitScoutingState extends State<PitScoutingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SendData(data: textValues)),
+                      builder: (context) => SendData(data: getBunchValues())),
                 );
               },
             ),
@@ -99,6 +99,20 @@ class _PitScoutingState extends State<PitScoutingPage> {
         );
       },
     );
+  }
+
+  Map<String, String> getBunchValues() {
+    Map<String, String> bunchValues = {};
+
+    for (var item in formFields['Pit']) {
+      if (item['type'] == "text" || item['type'] == "number") {
+        bunchValues[item['name']] = textValues[item['name']] ?? '';
+      } else if (item['type'] == "radio") {
+        bunchValues[item['name']] = radioValues[item['name']] ?? '';
+      }
+    }
+
+    return bunchValues;
   }
 
   @override
