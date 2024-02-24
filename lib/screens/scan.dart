@@ -8,7 +8,8 @@ class ScanResultsPage extends StatefulWidget {
   final String title;
   final int year;
 
-  ScanResultsPage({Key? key, required this.title, required this.year}) : super(key: key);
+  ScanResultsPage({Key? key, required this.title, required this.year})
+      : super(key: key);
 
   @override
   _ScanResultsPageState createState() => _ScanResultsPageState();
@@ -29,15 +30,21 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
         children: <Widget>[
           Expanded(
             flex: 5,
-            child: (kIsWeb || Theme.of(context).platform == TargetPlatform.linux || Theme.of(context).platform == TargetPlatform.macOS || Theme.of(context).platform == TargetPlatform.windows)
-              ? Center(child: Text('The camera function is only available on Android and IOS. (I MEAN I HAVENT TESTED IT YET THO LMAO)'))
-              : QRView(
-                  key: qrKey,
-                  onQRViewCreated: _onQRViewCreated,
-                ),
+            child: (kIsWeb ||
+                    Theme.of(context).platform == TargetPlatform.linux ||
+                    Theme.of(context).platform == TargetPlatform.macOS ||
+                    Theme.of(context).platform == TargetPlatform.windows)
+                ? Center(
+                    child: Text(
+                        'The camera function is only available on Android and iOS.'))
+                : QRView(
+                    key: qrKey,
+                    onQRViewCreated: _onQRViewCreated,
+                  ),
           ),
           if (result != null)
-            Text('Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
+            Text(
+                'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
         ],
       ),
     );
