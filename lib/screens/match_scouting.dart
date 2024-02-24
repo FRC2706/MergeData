@@ -140,6 +140,34 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
     return allFieldsValid;
   }
 
+  Map<String, String> getBunchValues() {
+    Map<String, String> bunchValues = {};
+
+    for (var section in data.entries) {
+      for (var item in section.value) {
+        if (item['type'] == "text" || item['type'] == "number") {
+          if (textValues[item['name']] != null &&
+              textValues[item['name']]!.isNotEmpty) {
+            bunchValues[item['name']] = textValues[item['name']] ?? '';
+          }
+        } else if (item['type'] == "radio") {
+          if (radioControllers[item['name']] != null &&
+              radioControllers[item['name']]!.isNotEmpty) {
+            bunchValues[item['name']] = radioControllers[item['name']] ?? '';
+          }
+        } else if (item['type'] == "bool") {
+          bunchValues[item['name']] =
+              (boolValues[item['name']] ?? false) ? "Yes" : "No";
+        } else if (item['type'] == "counter") {
+          bunchValues[item['name']] =
+              (counterValues[item['name']] ?? 0).toString();
+        }
+      }
+    }
+    bunchValues["Counter Timestamps"] = jsonEncode(counterTimestamps);
+    return bunchValues;
+  }
+
   void saveAndSend() {
     if (!validateRequiredFields()) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -167,7 +195,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => SendData(data: textValues)),
+                      builder: (context) => SendData(data: getBunchValues())),
                 );
               },
             ),
