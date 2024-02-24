@@ -9,8 +9,8 @@ on:
       - main
 
 jobs:
-  build:
-    name: Build
+  build_web_and_ios:
+    name: Build Web and iOS
     runs-on: macos-latest
     
     steps:
@@ -34,9 +34,6 @@ jobs:
     - name: Build web release project
       run: flutter build web
 
-    - name: Build APK
-      run: flutter build apk --release
-
     - name: Build IPA
       run: flutter build ios --release --no-codesign
 
@@ -46,21 +43,47 @@ jobs:
         name: production-files
         path: ./build/web
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
-
     - name: Upload IPA
       uses: actions/upload-artifact@v2
       with:
         name: Runner.app
         path: build/ios/iphoneos/Runner.app
 
+  build_apk:
+    name: Build APK
+    needs: build_web_and_ios
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install Flutter
+      uses: subosito/flutter-action@v1
+      with:
+        flutter-version: '3.x'
+
+    - name: Get dependencies
+      run: flutter pub get
+
+    - name: Create .env file
+      run: |
+        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
+        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
+        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
+
+    - name: Build APK
+      run: flutter build apk --release
+
+    - name: Upload APK
+      uses: actions/upload-artifact@v2
+      with:
+        name: app-release.apk
+        path: build/app/outputs/flutter-apk/app-release.apk
+
   deploy:
     name: Deploy
-    needs: build
+    needs: build_apk
     runs-on: ubuntu-latest
     
     steps:
