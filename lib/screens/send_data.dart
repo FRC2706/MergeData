@@ -47,7 +47,8 @@ class _SendDataState extends State<SendData> {
       message = 'Shep Error!: $e';
       print(e);
     }
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
     Navigator.of(context).pop();
   }
 
@@ -59,7 +60,9 @@ class _SendDataState extends State<SendData> {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('Send Data'),
+              backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+              title: const Text("Send Data",
+                  style: TextStyle(color: Colors.black)),
               actions: <Widget>[
                 IconButton(
                   icon: const Icon(Icons.home),
@@ -69,13 +72,18 @@ class _SendDataState extends State<SendData> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('Are you sure you want to return to home?'),
-                          content: Text('All unsaved data will be sent to the shadow realm.', style: TextStyle(fontSize: 12, color: Colors.red)),
+                          title:
+                              Text('Are you sure you want to return to home?'),
+                          content: Text(
+                              'All unsaved data will be sent to the shadow realm.',
+                              style:
+                                  TextStyle(fontSize: 12, color: Colors.red)),
                           actions: [
                             TextButton(
                               child: Text('Yes'),
                               onPressed: () {
-                                Navigator.of(context).popUntil((route) => route.isFirst);
+                                Navigator.of(context)
+                                    .popUntil((route) => route.isFirst);
                               },
                             ),
                             TextButton(

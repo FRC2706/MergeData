@@ -9,9 +9,9 @@ on:
       - main
 
 jobs:
-  build_web_and_ios:
-    name: Build Web and iOS
-    runs-on: macos-latest
+  build_web_and_apk:
+    name: Build Web and APK
+    runs-on: ubuntu-latest
     
     steps:
     - name: Checkout code
@@ -34,8 +34,8 @@ jobs:
     - name: Build web release project
       run: flutter build web
 
-    - name: Build IPA
-      run: flutter build ios --release --no-codesign
+    - name: Build APK
+      run: flutter build apk --release
 
     - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
@@ -43,58 +43,52 @@ jobs:
         name: production-files
         path: ./build/web
 
-    - name: Upload IPA
-      uses: actions/upload-artifact@v2
-      with:
-        name: Runner.app
-        path: build/ios/iphoneos/Runner.app
-
-  build_apk:
-    name: Build APK
-    needs: build_web_and_ios
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Install Flutter
-      uses: subosito/flutter-action@v1
-      with:
-        flutter-version: '3.x'
-
-    - name: Get dependencies
-      run: flutter pub get
-
-    - name: Create .env file
-      run: |
-        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
-        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
-        echo WORKSHEET_NAME=${{ secrets.WORKSHEET_NAME }} >> .env
-
-    - name: Build APK
-      run: flutter build apk --release
-
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
         name: app-release.apk
         path: build/app/outputs/flutter-apk/app-release.apk
 
-  deploy:
-    name: Deploy
-    needs: build_apk
+  release:
+    name: Create Release
+    needs: build_web_and_apk
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Download web artifact
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Download APK
       uses: actions/download-artifact@v2
       with:
-        name: production-files
-        path: ./build
+        name: app-release.apk
+        path: .
 
-    - name: Deploy to gh-pages
-      uses: peaceiris/actions-gh-pages@v3
+    - name: Extract branch or tag name
+      id: extract_ref
+      run: |
+        REF_NAME=$(echo ${GITHUB_REF#refs/*/})
+        if [[ -z "$REF_NAME" ]]; then
+          REF_NAME="1.0.0"
+        fi
+        echo "::set-output name=ref_name::$REF_NAME"
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build
+        tag_name: ${{ steps.extract_ref.outputs.ref_name }}
+        release_name: Release ${{ steps.extract_ref.outputs.ref_name }}
+        draft: false
+        prerelease: false
+
+    - name: Upload APK Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+        asset_path: ./app-release.apk
+        asset_name: app-release.apk
+        asset_content_type: application/vnd.android.package-archive

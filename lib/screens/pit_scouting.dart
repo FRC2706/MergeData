@@ -4,7 +4,8 @@ import 'package:flutter/services.dart';
 import 'send_data.dart';
 
 class PitScoutingPage extends StatefulWidget {
-  PitScoutingPage({Key? key, required this.title, required this.year}) : super(key: key);
+  PitScoutingPage({Key? key, required this.title, required this.year})
+      : super(key: key);
 
   final String title;
   final int year;
@@ -27,7 +28,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
   }
 
   Future<void> loadJson() async {
-    final String response = await rootBundle.loadString("assets/pit/${widget.year}.json");
+    final String response =
+        await rootBundle.loadString("assets/pit/${widget.year}.json");
     final data = await jsonDecode(response);
     setState(() {
       formFields = data;
@@ -38,10 +40,14 @@ class _PitScoutingState extends State<PitScoutingPage> {
     bool allFieldsValid = true;
     for (var field in formFields['Pit']) {
       if (field['required']) {
-        if (field['type'] == 'radio' && (radioValues[field['name']] == null || radioValues[field['name']]!.isEmpty)) {
+        if (field['type'] == 'radio' &&
+            (radioValues[field['name']] == null ||
+                radioValues[field['name']]!.isEmpty)) {
           fieldErrors[field['name']] = true;
           allFieldsValid = false;
-        } else if ((field['type'] == 'text' || field['type'] == 'number') && (textValues[field['name']] == null || textValues[field['name']]!.trim().isEmpty)) {
+        } else if ((field['type'] == 'text' || field['type'] == 'number') &&
+            (textValues[field['name']] == null ||
+                textValues[field['name']]!.trim().isEmpty)) {
           fieldErrors[field['name']] = true;
           allFieldsValid = false;
         } else {
@@ -55,9 +61,12 @@ class _PitScoutingState extends State<PitScoutingPage> {
   void saveAndSend() {
     if (!validateRequiredFields()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please fill out all required fields before saving.')),
+        const SnackBar(
+            content:
+                Text('Please fill out all required fields before saving.')),
       );
-      setState(() {}); // Trigger a rebuild to show error messages, feel free to refactor if there is a better way
+      setState(
+          () {}); // Trigger a rebuild to show error messages, feel free to refactor if there is a better way
       return;
     }
 
@@ -65,22 +74,23 @@ class _PitScoutingState extends State<PitScoutingPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirmation'),
-          content: Text('Are you sure you want to send the data?'),
+          title: const Text('Confirmation'),
+          content: const Text('Are you sure you want to send the data?'),
           actions: <Widget>[
             TextButton(
-              child: Text('Prepare to send!'),
+              child: const Text('Prepare to send!'),
               onPressed: () {
-              Navigator.of(context).pop();
-              // redirect to `send_data.dart` and pass the data
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SendData(data: textValues)),
-              );  
+                Navigator.of(context).pop();
+                // redirect to `send_data.dart` and pass the data
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SendData(data: textValues)),
+                );
               },
             ),
             TextButton(
-              child: Text('No, not yet'),
+              child: const Text('No, not yet'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -95,7 +105,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
@@ -108,7 +119,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
               children: [
                 TextFormField(
                   keyboardType: TextInputType.number,
-                  initialValue: textValues[field['name']] ?? '', // Use the stored value
+                  initialValue:
+                      textValues[field['name']] ?? '', // Use the stored value
                   decoration: InputDecoration(
                     labelText: field['name'],
                     errorText: showError ? 'This field is required' : null,
@@ -129,7 +141,8 @@ class _PitScoutingState extends State<PitScoutingPage> {
             return Column(
               children: [
                 TextFormField(
-                  initialValue: textValues[field['name']] ?? '', // Use the stored value
+                  initialValue:
+                      textValues[field['name']] ?? '', // Use the stored value
                   decoration: InputDecoration(
                     labelText: field['name'],
                     errorText: showError ? 'This field is required' : null,
@@ -171,11 +184,15 @@ class _PitScoutingState extends State<PitScoutingPage> {
                     ),
                   );
                 }).toList(),
-                showError ? Text('This field is required', style: TextStyle(color: Colors.red)) : SizedBox.shrink(),
+                showError
+                    ? Text('This field is required',
+                        style: TextStyle(color: Colors.red))
+                    : SizedBox.shrink(),
               ],
             );
           } else {
-            return SizedBox.shrink(); // Return an empty widget for unsupported field types
+            return SizedBox
+                .shrink(); // Return an empty widget for unsupported field types
           }
         },
       ),
