@@ -108,7 +108,7 @@
       "type": "bool"
     },
     {
-      "name": "THEY DED :( [time is logged when clicked]",
+      "name": "Died :( [time is logged when clicked]",
       "type": "bool"
     }
   ],
@@ -153,11 +153,7 @@
       "choices": ["1 (slow)", "2", "3", "4", "5 (fast)"]
     },
     {
-      "name": "Died (Immobilized)",
-      "type": "bool"
-    },
-    {
-      "name": "Almost Tipped Over",
+      "name": "Tippy, looks like it'll fall over",
       "type": "bool"
     },
     {
