@@ -1,4 +1,4 @@
-name: MergeData
+name: merge_data
 description: "An FRC scouting app developed by Merge Robotics."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -41,6 +41,7 @@ dependencies:
   qr_code_scanner: ^1.0.1
   gsheets: ^0.5.0
   flutter_dotenv: ^5.1.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
