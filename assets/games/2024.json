@@ -48,6 +48,14 @@
       "type": "bool"
     },
     {
+      "name": "Notes Picked Up",
+      "type": "counter"
+    },
+    {
+      "name": "Notes Dropped",
+      "type": "counter"
+    },
+    {
       "name": "Auto Amp Scores",
       "type": "counter"
     },
@@ -58,11 +66,31 @@
   ],
   "TeleOp": [
     {
+      "name": "Notes Picked Up From Ground",
+      "type": "counter"
+    },
+    {
+      "name": "Notes Picked Up From Source",
+      "type": "counter"
+    },
+    {
+      "name": "Notes Dropped",
+      "type": "counter"
+    },
+    {
       "name": "TeleOp Amp Scores",
       "type": "counter"
     },
     {
+      "name": "TeleOp Amp Misses",
+      "type": "counter"
+    },
+    {
       "name": "TeleOp Speaker Scores",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Speaker Misses",
       "type": "counter"
     },
     {
@@ -74,6 +102,14 @@
       "type": "radio",
       "choices": ["Source", "Floor", "Both", "Not Attempted"],
       "required": true
+    },
+    {
+      "name": "Pressed cooperation button",
+      "type": "bool"
+    },
+    {
+      "name": "THEY DED :( [time is logged when clicked]",
+      "type": "bool"
     }
   ],
   "EndGame": [
@@ -85,7 +121,15 @@
     },
     {
       "name": "Note in Trap",
-      "type": "bool"
+      "type": "radio",
+      "required": true,
+      "choices": ["Yes", "Attempted, but failed", "Not attempted"]
+    },
+    {
+      "name": "Cilmb",
+      "type": "radio",
+      "required": true,
+      "choices": ["Yes, alone", "Yes, with teammate", "Attempted, but failed", "Not attempted"]
     }
   ],
   "PostMatch": [
