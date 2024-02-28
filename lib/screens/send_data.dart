@@ -4,12 +4,14 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData extends StatefulWidget {
   final Map<String, String> data;
   final bool isGame;
+  final bool justSend;
 
-  SendData({Key? key, required this.data, required this.isGame})
+  SendData({Key? key, required this.data, required this.isGame, this.justSend = false})
       : super(key: key);
 
   @override
@@ -34,9 +36,17 @@ class _SendDataState extends State<SendData> {
     _pitWorksheetName = dotenv.env['PIT_WORKSHEET_NAME']!;
   }
 
+  Future<void> saveDataLocally() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGames = prefs.getStringList('savedGames') ?? [];
+    savedGames.add(jsonEncode(widget.data));
+    await prefs.setStringList('savedGames', savedGames);
+  }
+
   Future<void> sendDataToGoogleSheets() async {
-    await loadEnv(); // Wait for loadEnv to complete before proceeding
+    await loadEnv();
     String message = '';
+
     try {
       final ss = await _gsheets.spreadsheet(_spreadsheetId);
       var sheet;
@@ -45,17 +55,43 @@ class _SendDataState extends State<SendData> {
       } else {
         sheet = ss.worksheetByTitle(_pitWorksheetName);
       }
+
       if (sheet != null) {
-        final values = widget.data.values.toList();
-        final result = await sheet.values.appendRow(values);
-        if (result) {
-          message = 'Shep collected the data, thanks scout! o7';
+        // Check for locally stored games
+        final prefs = await SharedPreferences.getInstance();
+        final savedGames = prefs.getStringList('savedGames') ?? [];
+
+        if (savedGames.isEmpty && widget.data.isEmpty) {
+          message = "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
+        } else {
+
+          if (widget.isGame) {
+            // Send locally stored games
+            for (final savedGame in savedGames) {
+              final gameData = jsonDecode(savedGame);
+              List<dynamic> values = gameData.values.toList();
+              await sheet.values.appendRow(values);
+            }            
+            // Clear the saved games after sending them
+            final a = await prefs.setStringList('savedGames', []);
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text('Cleared games: $a')),
+            );
+          }
+
+          // Send current game
+          final values = widget.data.values.toList();
+          final result = await sheet.values.appendRow(values);
+          if (result) {
+            message = 'Shep collected the data, thanks scout! o7';
+          }
         }
       }
     } catch (e) {
       message = 'Shep Error!: $e';
       print(e);
     }
+
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
     Navigator.of(context).pop();
@@ -144,6 +180,45 @@ class _SendDataState extends State<SendData> {
                     },
                   ),
                 SizedBox(width: 10), // Add some spacing between the buttons
+                if (widget.isGame && !widget.justSend)
+                  FloatingActionButton(
+                    child: Icon(Icons.archive),
+                    onPressed: () {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Save data locally?'),
+                            content: Text(
+                              "The data will NOT be uploaded yet, but will be saved locally.\n"
+                              "You can send it later. JUST DON'T FORGET TO SEND IT!"),
+                            actions: [
+                              TextButton(
+                                child: Text('Yes'),
+                                onPressed: () {
+                                  saveDataLocally();
+                                  Navigator.of(context)
+                                      .popUntil((route) => route.isFirst);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text(
+                                              'Data saved locally, thanks scout! o7')));
+                                },
+                              ),
+                              TextButton(
+                                child: Text('No'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                  ),
+                
+                SizedBox(width: 10),
                 FloatingActionButton(
                   child: Icon(Icons.send),
                   onPressed: () {

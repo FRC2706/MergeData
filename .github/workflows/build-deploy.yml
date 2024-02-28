@@ -54,8 +54,8 @@ jobs:
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
-        name: app-release.apk
-        path: build/app/outputs/flutter-apk/app-release.apk
+        name: MergeData.apk
+        path: build/app/outputs/flutter-apk/MergeData.apk
 
     - name: Bump version and push tag
       if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -84,6 +84,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/app/outputs/flutter-apk/app-release.apk
-        asset_name: app-release.apk
+        asset_path: ./build/app/outputs/flutter-apk/MergeData.apk
+        asset_name: MergeData.apk
         asset_content_type: application/vnd.android.package-archive
