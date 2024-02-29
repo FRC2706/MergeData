@@ -58,15 +58,15 @@
   ],
   "TeleOp": [
     {
-      "name": "Notes Picked Up From Ground",
+      "name": "TeleOp Notes Picked Up From Ground",
       "type": "counter"
     },
     {
-      "name": "Notes Picked Up From Source",
+      "name": "TeleOp Notes Picked Up From Source",
       "type": "counter"
     },
     {
-      "name": "Notes Dropped",
+      "name": "TeleOp Notes Dropped",
       "type": "counter"
     },
     {
