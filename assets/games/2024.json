@@ -115,13 +115,13 @@
       "name": "Note in Trap",
       "type": "radio",
       "required": true,
-      "choices": ["Yes", "Attempted, but failed", "Not attempted"]
+      "choices": ["Not attempted", "Yes", "Attempted, but failed"]
     },
     {
       "name": "Cilmb",
       "type": "radio",
       "required": true,
-      "choices": ["Yes, alone", "Yes, with teammate", "Attempted, but failed", "Not attempted"]
+      "choices": ["Not attempted", "Yes, alone", "Yes, with teammate", "Attempted, but failed"]
     }
   ],
   "PostMatch": [
@@ -129,7 +129,7 @@
       "name": "Driver Skill",
       "type": "radio",
       "required": true,
-      "choices": ["Not Effective", "Average", "Very Effective", "Not Observed"]
+      "choices": ["Not Observed", "Not Effective", "Average", "Very Effective"]
     },
     {
       "name": "Defense Rating",
