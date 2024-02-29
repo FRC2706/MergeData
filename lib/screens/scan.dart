@@ -24,7 +24,6 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
   QRViewController? controller;
 
   void sendData(values, isGame) {
-    Navigator.of(context).pop();
     // redirect to `send_data.dart` and pass the data
     Navigator.push(
       context,
@@ -59,9 +58,6 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
                     onQRViewCreated: _onQRViewCreated,
                   ),
           ),
-          if (result != null)
-            Text(
-                'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
         ],
       ),
     );
@@ -71,11 +67,13 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       result = scanData;
-      String? resultData = result!.code;
-      Map? resultDataMap = jsonDecode(resultData!);
-      bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
-      resultDataMap.remove("isGame");
-      sendData(resultDataMap, isGame);
+      if (result != null) {
+        String? resultData = result!.code;
+        Map? resultDataMap = jsonDecode(resultData!);
+        bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
+        resultDataMap.remove("isGame");
+        sendData(resultDataMap, isGame);
+      }
     });
   }
 
