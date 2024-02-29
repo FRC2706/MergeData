@@ -32,14 +32,6 @@
       "name": "Team #",
       "required": false,
       "type": "number"
-    },
-    {
-      "name": "Auto Start Position",
-      "type": "clickable_image",
-      "filename": "images/field_image.png",
-      "clickRestriction": "one",
-      "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
-      "shape": "circle 5 black red true"
     }
   ],
   "Autonomous": [
