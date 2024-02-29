@@ -354,7 +354,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                             )),
                                         Container(
                                             padding: const EdgeInsets.all(5),
-                                            child: TextField(
+                                            child: TextFormField(
                                               decoration: InputDecoration(
                                                 border:
                                                     const OutlineInputBorder(),
@@ -363,6 +363,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                     ? 'This field is required'
                                                     : null,
                                               ),
+                                              initialValue: textValues[data
+                                                      .values
+                                                      .toList()[index - 1]
+                                                  [index2]["name"]],
                                               onChanged: (newString) {
                                                 if (data.values
                                                             .toList()[index - 1]
@@ -477,7 +481,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                             )),
                                         Container(
                                             padding: const EdgeInsets.all(5),
-                                            child: TextField(
+                                            child: TextFormField(
                                               decoration: InputDecoration(
                                                 border:
                                                     const OutlineInputBorder(),
@@ -492,6 +496,10 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                 FilteringTextInputFormatter
                                                     .digitsOnly
                                               ],
+                                              initialValue: textValues[data
+                                                      .values
+                                                      .toList()[index - 1]
+                                                  [index2]["name"]],
                                               onChanged: (newString) {
                                                 if (data.values
                                                             .toList()[index - 1]
