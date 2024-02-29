@@ -178,7 +178,10 @@ class _SendDataState extends State<SendData> {
                     child: Icon(Icons.qr_code),
                     onPressed: () {
                       setState(() {
-                        Map tempData = widget.data;
+                        Map tempData = {};
+                        for (MapEntry entry in widget.data.entries) {
+                          tempData[entry.key] = entry.value;
+                        }
                         tempData['isGame'] = widget.isGame ? "y" : "n";
                         dataString = jsonEncode(tempData);
                         showQR = true;
