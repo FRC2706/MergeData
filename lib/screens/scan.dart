@@ -70,14 +70,12 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-        String? resultData = result!.code;
-        Map? resultDataMap = jsonDecode(resultData!);
-        bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
-        resultDataMap.remove("isGame");
-        sendData(resultDataMap, isGame);
-      });
+      result = scanData;
+      String? resultData = result!.code;
+      Map? resultDataMap = jsonDecode(resultData!);
+      bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
+      resultDataMap.remove("isGame");
+      sendData(resultDataMap, isGame);
     });
   }
 
