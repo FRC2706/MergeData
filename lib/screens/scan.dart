@@ -21,6 +21,7 @@ class ScanResultsPage extends StatefulWidget {
 class _ScanResultsPageState extends State<ScanResultsPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
+  bool sentData = false;
   QRViewController? controller;
 
   void sendData(values, isGame) {
@@ -67,7 +68,8 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       result = scanData;
-      if (result != null) {
+      if (result != null && !sentData) {
+        sentData = true;
         String? resultData = result!.code;
         Map? resultDataMap = jsonDecode(resultData!);
         bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
