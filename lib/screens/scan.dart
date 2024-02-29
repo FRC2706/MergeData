@@ -74,7 +74,7 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
         result = scanData;
         String? resultData = result!.code;
         Map? resultDataMap = jsonDecode(resultData!);
-        bool? isGame = resultDataMap!['isGame'];
+        bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
         resultDataMap.remove("isGame");
         sendData(resultDataMap, isGame);
       });

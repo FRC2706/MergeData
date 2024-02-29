@@ -179,7 +179,7 @@ class _SendDataState extends State<SendData> {
                     onPressed: () {
                       setState(() {
                         Map tempData = widget.data;
-                        tempData['isGame'] = widget.isGame;
+                        tempData['isGame'] = widget.isGame ? "y" : "n";
                         dataString = jsonEncode(tempData);
                         showQR = true;
                       });
