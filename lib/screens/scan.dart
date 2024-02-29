@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:merge_data/screens/send_data.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanResultsPage extends StatefulWidget {
@@ -20,11 +23,25 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
   Barcode? result;
   QRViewController? controller;
 
+  void sendData(values, isGame) {
+    Navigator.of(context).pop();
+    // redirect to `send_data.dart` and pass the data
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SendData(
+                data: values,
+                isGame: isGame,
+              )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
       body: Column(
         children: <Widget>[
@@ -55,6 +72,11 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
+        String? resultData = result!.code;
+        Map? resultDataMap = jsonDecode(resultData!);
+        bool? isGame = resultDataMap!['isGame'];
+        resultDataMap.remove("isGame");
+        sendData(resultDataMap, isGame);
       });
     });
   }

@@ -11,7 +11,11 @@ class SendData extends StatefulWidget {
   final bool isGame;
   final bool justSend;
 
-  SendData({Key? key, required this.data, required this.isGame, this.justSend = false})
+  SendData(
+      {Key? key,
+      required this.data,
+      required this.isGame,
+      this.justSend = false})
       : super(key: key);
 
   @override
@@ -62,16 +66,16 @@ class _SendDataState extends State<SendData> {
         final savedGames = prefs.getStringList('savedGames') ?? [];
 
         if (savedGames.isEmpty && widget.data.isEmpty) {
-          message = "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
+          message =
+              "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
         } else {
-
           if (widget.isGame) {
             // Send locally stored games
             for (final savedGame in savedGames) {
               final gameData = jsonDecode(savedGame);
               List<dynamic> values = gameData.values.toList();
               await sheet.values.appendRow(values);
-            }            
+            }
             // Clear the saved games after sending them
             final a = await prefs.setStringList('savedGames', []);
             ScaffoldMessenger.of(context).showSnackBar(
@@ -174,7 +178,9 @@ class _SendDataState extends State<SendData> {
                     child: Icon(Icons.qr_code),
                     onPressed: () {
                       setState(() {
-                        dataString = jsonEncode(widget.data);
+                        Map tempData = widget.data;
+                        tempData['isGame'] = widget.isGame;
+                        dataString = jsonEncode(tempData);
                         showQR = true;
                       });
                     },
@@ -190,8 +196,8 @@ class _SendDataState extends State<SendData> {
                           return AlertDialog(
                             title: Text('Save data locally?'),
                             content: Text(
-                              "The data will NOT be uploaded yet, but will be saved locally.\n"
-                              "You can send it later. JUST DON'T FORGET TO SEND IT!"),
+                                "The data will NOT be uploaded yet, but will be saved locally.\n"
+                                "You can send it later. JUST DON'T FORGET TO SEND IT!"),
                             actions: [
                               TextButton(
                                 child: Text('Yes'),
@@ -217,7 +223,7 @@ class _SendDataState extends State<SendData> {
                       );
                     },
                   ),
-                
+
                 SizedBox(width: 10),
                 FloatingActionButton(
                   child: Icon(Icons.send),
