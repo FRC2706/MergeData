@@ -71,10 +71,14 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
       if (result != null && !sentData) {
         sentData = true;
         String? resultData = result!.code;
-        Map? resultDataMap = jsonDecode(resultData!);
-        bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
-        resultDataMap.remove("isGame");
-        sendData(resultDataMap, isGame);
+        try {
+          Map? resultDataMap = jsonDecode(resultData!);
+          bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
+          resultDataMap.remove("isGame");
+          sendData(resultDataMap, isGame);
+        } catch (e) {
+          print('Error decoding JSON: $e');
+        }
       }
     });
   }
