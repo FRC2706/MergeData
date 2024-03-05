@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
+import 'package:merge_data/screens/send_data.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
 class ScanResultsPage extends StatefulWidget {
@@ -18,13 +21,27 @@ class ScanResultsPage extends StatefulWidget {
 class _ScanResultsPageState extends State<ScanResultsPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
+  bool sentData = false;
   QRViewController? controller;
+
+  void sendData(values, isGame) {
+    // redirect to `send_data.dart` and pass the data
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => SendData(
+                data: values,
+                isGame: isGame,
+              )),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
       body: Column(
         children: <Widget>[
@@ -42,9 +59,6 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
                     onQRViewCreated: _onQRViewCreated,
                   ),
           ),
-          if (result != null)
-            Text(
-                'Barcode Type: ${describeEnum(result!.format)}   Data: ${result!.code}')
         ],
       ),
     );
@@ -53,9 +67,19 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
   void _onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      result = scanData;
+      if (result != null && !sentData) {
+        sentData = true;
+        String? resultData = result!.code;
+        try {
+          Map? resultDataMap = jsonDecode(resultData!);
+          bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
+          resultDataMap.remove("isGame");
+          sendData(resultDataMap, isGame);
+        } catch (e) {
+          print('Error decoding JSON: $e');
+        }
+      }
     });
   }
 

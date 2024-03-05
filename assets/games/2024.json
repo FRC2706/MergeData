@@ -32,14 +32,6 @@
       "name": "Team #",
       "required": false,
       "type": "number"
-    },
-    {
-      "name": "Auto Start Position",
-      "type": "clickable_image",
-      "filename": "images/field_image.png",
-      "clickRestriction": "one",
-      "allowableResponses": "1 12 13 24 25 36 37 48 49 60 61 72",
-      "shape": "circle 5 black red true"
     }
   ],
   "Autonomous": [
@@ -66,15 +58,15 @@
   ],
   "TeleOp": [
     {
-      "name": "Notes Picked Up From Ground",
+      "name": "TeleOp Notes Picked Up From Ground",
       "type": "counter"
     },
     {
-      "name": "Notes Picked Up From Source",
+      "name": "TeleOp Notes Picked Up From Source",
       "type": "counter"
     },
     {
-      "name": "Notes Dropped",
+      "name": "TeleOp Notes Dropped",
       "type": "counter"
     },
     {
@@ -123,13 +115,13 @@
       "name": "Note in Trap",
       "type": "radio",
       "required": true,
-      "choices": ["Yes", "Attempted, but failed", "Not attempted"]
+      "choices": ["Not attempted", "Yes", "Attempted, but failed"]
     },
     {
       "name": "Cilmb",
       "type": "radio",
       "required": true,
-      "choices": ["Yes, alone", "Yes, with teammate", "Attempted, but failed", "Not attempted"]
+      "choices": ["Not attempted", "Yes, alone", "Yes, with teammate", "Attempted, but failed"]
     }
   ],
   "PostMatch": [
@@ -137,7 +129,7 @@
       "name": "Driver Skill",
       "type": "radio",
       "required": true,
-      "choices": ["Not Effective", "Average", "Very Effective", "Not Observed"]
+      "choices": ["Not Observed", "Not Effective", "Average", "Very Effective"]
     },
     {
       "name": "Defense Rating",
