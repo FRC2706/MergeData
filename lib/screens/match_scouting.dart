@@ -208,449 +208,455 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
     );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          title:
-              Text(widget.title, style: const TextStyle(color: Colors.black)),
-        ),
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: saveAndSend,
-          label: const Text('Save & Send'),
-          icon: const Icon(Icons.send),
-        ),
-        body: data.isEmpty
-            ? Center(
-                child: Column(
-                children: <Widget>[
-                  Image.asset("assets/images/shep-loading.gif"),
-                  const Padding(
-                    padding: EdgeInsets.all(5),
-                  ),
+@override
+Widget build(BuildContext context) {
+  return Scaffold(
+    appBar: AppBar(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      title: Text(widget.title, style: const TextStyle(color: Colors.black)),
+    ),
+    floatingActionButton: FloatingActionButton.extended(
+      onPressed: saveAndSend,
+      label: const Text('Save & Send'),
+      icon: const Icon(Icons.send),
+    ),
+    body: data.isEmpty
+        ? Center(
+            child: Column(
+            children: <Widget>[
+              Image.asset("assets/images/shep-loading.gif"),
+              const Padding(
+                padding: EdgeInsets.all(5),
+              ),
+              const Text(
+                  "Shep didn't find anything so he started dancing...",
+                  style: TextStyle(fontSize: 18))
+            ],
+          ))
+        : ListView.builder(
+            itemCount: data.length + 1,
+            itemBuilder: (context, index) {
+              if (index == 0) {
+                return Column(children: [
+                  const Padding(padding: EdgeInsets.all(5)),
                   const Text(
-                      "Shep didn't find anything so he started dancing...",
-                      style: TextStyle(fontSize: 18))
-                ],
-              ))
-            : ListView.builder(
-                itemCount: data.length + 1,
-                itemBuilder: (context, index) {
-                  if (index == 0) {
-                    return Column(children: [
-                      const Padding(padding: EdgeInsets.all(5)),
-                      const Text(
-                        "Match Timer",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const Padding(padding: EdgeInsets.all(2)),
-                      if (_start >= 60) ...[
-                        Text(
-                            "${(_start / 60).floor()}:${(_start % 60).toString().padLeft(2, '0')}",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18)),
-                      ],
-                      if (_start <= 59) ...[
-                        Text("$_start",
-                            style: const TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18)),
-                      ],
-                      const Padding(padding: EdgeInsets.all(2)),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          if (_timer == null) ...[
-                            ElevatedButton(
-                              onPressed: () {
-                                startTimer();
-                              },
-                              child: const Text("Start"),
-                            ),
-                            const Padding(padding: EdgeInsets.all(5)),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  _start = 150;
-                                });
-                              },
-                              child: const Text("Reset"),
-                            ),
-                          ] else ...[
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_timer != null) {
-                                    _timer!.cancel();
-                                    _timer = null;
-                                  }
-                                });
-                              },
-                              child: const Text("Pause"),
-                            ),
-                            const Padding(padding: EdgeInsets.all(5)),
-                            ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  if (_timer != null) {
-                                    _start = 150;
-                                    _timer!.cancel();
-                                    _timer = null;
-                                  }
-                                });
-                              },
-                              child: const Text("Reset"),
-                            ),
-                          ]
-                        ],
-                      ),
-                      const Padding(padding: EdgeInsets.all(5)),
-                    ]);
-                  }
-                  return ExpansionTile(
-                      title: Text(
-                        data.keys.toList()[index - 1].toString(),
+                    "Match Timer",
+                    style: TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  const Padding(padding: EdgeInsets.all(2)),
+                  if (_start >= 60) ...[
+                    Text(
+                        "${(_start / 60).floor()}:${(_start % 60).toString().padLeft(2, '0')}",
                         style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                        textAlign: TextAlign.center,
-                      ),
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(20),
-                          child: ListView.builder(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                  ],
+                  if (_start <= 59) ...[
+                    Text("$_start",
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18)),
+                  ],
+                  const Padding(padding: EdgeInsets.all(2)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      if (_timer == null) ...[
+                        ElevatedButton(
+                          onPressed: () {
+                            startTimer();
+                          },
+                          child: const Text("Start"),
+                        ),
+                        const Padding(padding: EdgeInsets.all(5)),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _start = 150;
+                            });
+                          },
+                          child: const Text("Reset"),
+                        ),
+                      ] else ...[
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              if (_timer != null) {
+                                _timer!.cancel();
+                                _timer = null;
+                              }
+                            });
+                          },
+                          child: const Text("Pause"),
+                        ),
+                        const Padding(padding: EdgeInsets.all(5)),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              if (_timer != null) {
+                                _start = 150;
+                                _timer!.cancel();
+                                _timer = null;
+                              }
+                            });
+                          },
+                          child: const Text("Reset"),
+                        ),
+                      ]
+                    ],
+                  ),
+                  const Padding(padding: EdgeInsets.all(5)),
+                ]);
+              }
+              return ExpansionTile(
+                title: Text(
+                  data.keys.toList()[index - 1].toString(),
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
+                ),
+                children: <Widget>[
+                  Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: ListView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: data.values.toList()[index - 1].length,
+                        itemBuilder: (context2, index2) {
+                          bool showError = fieldErrors[data.values
+                                  .toList()[index - 1][index2]["name"]] ??
+                              false;
+                          if (data.values.toList()[index - 1][index2]
+                                  ["type"] ==
+                              "text") {
+                            //addController(data.values.toList()[index - 1][index2]["name"]);
+                            String placeholderText = "";
+                            if (data.values
+                                .toList()[index - 1][index2]
+                                .keys
+                                .contains("defaultValue")) {
+                              placeholderText =
+                                  data.values.toList()[index - 1][index2]
+                                      ["defaultValue"];
+                            }
+                            return Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                        data.values.toList()[index - 1]
+                                            [index2]["name"],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                      padding: const EdgeInsets.all(5),
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border:
+                                              const OutlineInputBorder(),
+                                          hintText: placeholderText,
+                                          errorText: showError
+                                              ? 'This field is required'
+                                              : null,
+                                        ),
+                                        initialValue: textValues[data
+                                                .values
+                                                .toList()[index - 1]
+                                            [index2]["name"]],
+                                        onChanged: (newString) {
+                                          if (data.values
+                                                      .toList()[index - 1]
+                                                  [index2]['required'] &&
+                                              (newString == null ||
+                                                  newString.isEmpty)) {
+                                            fieldErrors[data.values
+                                                    .toList()[index - 1]
+                                                [index2]['name']] = true;
+                                          } else {
+                                            fieldErrors[data.values
+                                                    .toList()[index - 1]
+                                                [index2]['name']] = false;
+                                          }
+                                          setState(() {
+                                            textValues[
+                                                data.values.toList()[
+                                                        index - 1][index2]
+                                                    ["name"]] = newString;
+                                          });
+                                        },
+                                      )),
+                                  const Padding(
+                                      padding: EdgeInsets.all(10))
+                                ]);
+                          } else if (data.values.toList()[index - 1]
+                                  [index2]["type"] ==
+                              "radio") {
+                            addRadioController(
+                                data.values.toList()[index - 1][index2]
+                                    ["name"],
+                                data.values.toList()[index - 1][index2]
+                                    ["choices"][0]);
+                            return ListView.builder(
                               shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemCount: data.values.toList()[index - 1].length,
-                              itemBuilder: (context2, index2) {
-                                bool showError = fieldErrors[data.values
-                                        .toList()[index - 1][index2]["name"]] ??
-                                    false;
-                                if (data.values.toList()[index - 1][index2]
-                                        ["type"] ==
-                                    "text") {
-                                  //addController(data.values.toList()[index - 1][index2]["name"]);
-                                  String placeholderText = "";
-                                  if (data.values
+                              physics:
+                                  const NeverScrollableScrollPhysics(),
+                              itemCount: data.values
                                       .toList()[index - 1][index2]
-                                      .keys
-                                      .contains("defaultValue")) {
-                                    placeholderText =
-                                        data.values.toList()[index - 1][index2]
-                                            ["defaultValue"];
-                                  }
-                                  return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              data.values.toList()[index - 1]
-                                                  [index2]["name"],
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                        Container(
-                                            padding: const EdgeInsets.all(5),
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                border:
-                                                    const OutlineInputBorder(),
-                                                hintText: placeholderText,
-                                                errorText: showError
-                                                    ? 'This field is required'
-                                                    : null,
-                                              ),
-                                              initialValue: textValues[data
-                                                      .values
-                                                      .toList()[index - 1]
-                                                  [index2]["name"]],
-                                              onChanged: (newString) {
-                                                if (data.values
-                                                            .toList()[index - 1]
-                                                        [index2]['required'] &&
-                                                    (newString == null ||
-                                                        newString.isEmpty)) {
-                                                  fieldErrors[data.values
-                                                          .toList()[index - 1]
-                                                      [index2]['name']] = true;
-                                                } else {
-                                                  fieldErrors[data.values
-                                                          .toList()[index - 1]
-                                                      [index2]['name']] = false;
-                                                }
-                                                setState(() {
-                                                  textValues[
-                                                      data.values.toList()[
-                                                              index - 1][index2]
-                                                          ["name"]] = newString;
-                                                });
-                                              },
-                                            )),
-                                        const Padding(
-                                            padding: EdgeInsets.all(10))
-                                      ]);
-                                } else if (data.values.toList()[index - 1]
-                                        [index2]["type"] ==
-                                    "radio") {
-                                  addRadioController(
-                                      data.values.toList()[index - 1][index2]
-                                          ["name"],
-                                      data.values.toList()[index - 1][index2]
-                                          ["choices"][0]);
-                                  return ListView.builder(
-                                    shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    itemCount: data.values
+                                          ["choices"]
+                                      .length +
+                                  2,
+                              itemBuilder: (content3, index3) {
+                                if (index3 == 0) {
+                                  return Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                          data.values.toList()[index - 1]
+                                              [index2]["name"],
+                                          style: const TextStyle(
+                                              fontSize: 18,
+                                              fontWeight:
+                                                  FontWeight.bold)));
+                                } else if (index3 > 0 &&
+                                    index3 <
+                                        data.values
+                                                .toList()[index - 1]
+                                                    [index2]["choices"]
+                                                .length +
+                                            1) {
+                                  return RadioListTile<String>(
+                                    title: Text(data.values
                                             .toList()[index - 1][index2]
-                                                ["choices"]
-                                            .length +
-                                        2,
-                                    itemBuilder: (content3, index3) {
-                                      if (index3 == 0) {
-                                        return Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                                data.values.toList()[index - 1]
-                                                    [index2]["name"],
-                                                style: const TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        FontWeight.bold)));
-                                      } else if (index3 > 0 &&
-                                          index3 <
-                                              data.values
-                                                      .toList()[index - 1]
-                                                          [index2]["choices"]
-                                                      .length +
-                                                  1) {
-                                        return RadioListTile<String>(
-                                          title: Text(data.values
-                                                  .toList()[index - 1][index2]
-                                              ["choices"][index3 - 1]),
-                                          value: data.values.toList()[index - 1]
-                                              [index2]["choices"][index3 - 1],
-                                          groupValue: radioControllers[
-                                              data.values.toList()[index - 1]
-                                                  [index2]["name"]],
-                                          onChanged: (String? value) {
-                                            setState(() {
-                                              if (value != null) {
-                                                radioControllers[data.values
-                                                        .toList()[index - 1]
-                                                    [index2]["name"]] = value;
-                                              }
-                                            });
-                                          },
-                                        );
-                                      } else {
-                                        return const Padding(
-                                          padding: EdgeInsets.all(10),
-                                        );
-                                      }
+                                        ["choices"][index3 - 1]),
+                                    value: data.values.toList()[index - 1]
+                                        [index2]["choices"][index3 - 1],
+                                    groupValue: radioControllers[
+                                        data.values.toList()[index - 1]
+                                            [index2]["name"]],
+                                    onChanged: (String? value) {
+                                      setState(() {
+                                        if (value != null) {
+                                          radioControllers[data.values
+                                                  .toList()[index - 1]
+                                              [index2]["name"]] = value;
+                                        }
+                                      });
                                     },
                                   );
-                                } else if (data.values.toList()[index - 1]
-                                        [index2]["type"] ==
-                                    "number") {
-                                  //(data.values.toList()[index - 1][index2]["name"]);
-                                  String placeholderText = "";
-                                  if (data.values
-                                      .toList()[index - 1][index2]
-                                      .keys
-                                      .contains("defaultValue")) {
-                                    placeholderText =
-                                        data.values.toList()[index - 1][index2]
-                                            ["defaultValue"];
-                                  }
-                                  return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              data.values.toList()[index - 1]
-                                                  [index2]["name"],
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                        Container(
-                                            padding: const EdgeInsets.all(5),
-                                            child: TextFormField(
-                                              decoration: InputDecoration(
-                                                border:
-                                                    const OutlineInputBorder(),
-                                                hintText: placeholderText,
-                                                errorText: showError
-                                                    ? 'This field is required'
-                                                    : null,
-                                              ),
-                                              keyboardType:
-                                                  TextInputType.number,
-                                              inputFormatters: [
-                                                FilteringTextInputFormatter
-                                                    .digitsOnly
-                                              ],
-                                              initialValue: textValues[data
-                                                      .values
-                                                      .toList()[index - 1]
-                                                  [index2]["name"]],
-                                              onChanged: (newString) {
-                                                if (data.values
-                                                            .toList()[index - 1]
-                                                        [index2]['required'] &&
-                                                    (newString == null ||
-                                                        newString.isEmpty)) {
-                                                  fieldErrors[data.values
-                                                          .toList()[index - 1]
-                                                      [index2]['name']] = true;
-                                                } else {
-                                                  fieldErrors[data.values
-                                                          .toList()[index - 1]
-                                                      [index2]['name']] = false;
-                                                }
-                                                setState(() {
-                                                  textValues[
-                                                      data.values.toList()[
-                                                              index - 1][index2]
-                                                          ["name"]] = newString;
-                                                });
-                                              },
-                                            )),
-                                        const Padding(
-                                            padding: EdgeInsets.all(10))
-                                      ]);
-                                } else if (data.values.toList()[index - 1]
-                                        [index2]["type"] ==
-                                    "bool") {
-                                  addBoolValue(data.values.toList()[index - 1]
-                                      [index2]["name"]);
-                                  return Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Container(
-                                          padding: const EdgeInsets.all(5),
-                                          child: Text(
-                                            data.values.toList()[index - 1]
-                                                [index2]["name"],
-                                            style: const TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold),
-                                          )),
-                                      Row(children: <Widget>[
-                                        Checkbox(
-                                          value: boolValues[
-                                              data.values.toList()[index - 1]
-                                                  [index2]["name"]],
-                                          onChanged: (bool? value) {
-                                            setState(() {
-                                              if (value != null) {
-                                                boolValues[data.values
-                                                        .toList()[index - 1]
-                                                    [index2]["name"]] = value;
-                                              }
-                                            });
-                                          },
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.all(5)),
-                                        Text(
-                                          boolValues[data.values
-                                                          .toList()[index - 1]
-                                                      [index2]["name"]] ??
-                                                  false
-                                              ? "Yes"
-                                              : "No",
-                                          style: const TextStyle(
-                                            fontSize: 18,
-                                          ),
-                                        )
-                                      ]),
-                                      const Padding(padding: EdgeInsets.all(10))
-                                    ],
+                                } else {
+                                  return const Padding(
+                                    padding: EdgeInsets.all(10),
                                   );
-                                } else if (data.values.toList()[index - 1]
-                                        [index2]["type"] ==
-                                    "counter") {
-                                  addCounter(data.values.toList()[index - 1]
-                                      [index2]["name"]);
-                                  return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                            padding: const EdgeInsets.all(5),
-                                            child: Text(
-                                              data.values.toList()[index - 1]
-                                                  [index2]["name"],
-                                              style: const TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.bold),
-                                            )),
-                                        Row(
-                                          children: <Widget>[
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  decrementCounter(data.values
-                                                          .toList()[index - 1]
-                                                      [index2]["name"]);
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                shape: const CircleBorder(),
-                                              ),
-                                              child: const Text("-",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18)),
-                                            ),
-                                            const Padding(
-                                                padding: EdgeInsets.all(5)),
-                                            Text(
-                                                counterValues[data.values
-                                                            .toList()[index - 1]
-                                                        [index2]["name"]]
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                    fontWeight: FontWeight.bold,
-                                                    fontSize: 18)),
-                                            const Padding(
-                                                padding: EdgeInsets.all(5)),
-                                            ElevatedButton(
-                                              onPressed: () {
-                                                setState(() {
-                                                  incrementCounter(data.values
-                                                          .toList()[index - 1]
-                                                      [index2]["name"]);
-                                                });
-                                              },
-                                              style: ElevatedButton.styleFrom(
-                                                shape: const CircleBorder(),
-                                              ),
-                                              child: const Text("+",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 18)),
-                                            ),
-                                          ],
-                                        ),
-                                        const Padding(
-                                            padding: EdgeInsets.all(10))
-                                      ]);
                                 }
-                                return const Text("Failed to create widget");
-                              }),
-                        )
-                      ]);
-                }));
+                              },
+                            );
+                          } else if (data.values.toList()[index - 1]
+                                  [index2]["type"] ==
+                              "number") {
+                            //(data.values.toList()[index - 1][index2]["name"]);
+                            String placeholderText = "";
+                            if (data.values
+                                .toList()[index - 1][index2]
+                                .keys
+                                .contains("defaultValue")) {
+                              placeholderText =
+                                  data.values.toList()[index - 1][index2]
+                                      ["defaultValue"];
+                            }
+                            return Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                        data.values.toList()[index - 1]
+                                            [index2]["name"],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Container(
+                                      padding: const EdgeInsets.all(5),
+                                      child: TextFormField(
+                                        decoration: InputDecoration(
+                                          border:
+                                              const OutlineInputBorder(),
+                                          hintText: placeholderText,
+                                          errorText: showError
+                                              ? 'This field is required'
+                                              : null,
+                                        ),
+                                        keyboardType:
+                                            TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter
+                                              .digitsOnly
+                                        ],
+                                        initialValue: textValues[data
+                                                .values
+                                                .toList()[index - 1]
+                                            [index2]["name"]],
+                                        onChanged: (newString) {
+                                          if (data.values
+                                                      .toList()[index - 1]
+                                                  [index2]['required'] &&
+                                              (newString == null ||
+                                                  newString.isEmpty)) {
+                                            fieldErrors[data.values
+                                                    .toList()[index - 1]
+                                                [index2]['name']] = true;
+                                          } else {
+                                            fieldErrors[data.values
+                                                    .toList()[index - 1]
+                                                [index2]['name']] = false;
+                                          }
+                                          setState(() {
+                                            textValues[
+                                                data.values.toList()[
+                                                        index - 1][index2]
+                                                    ["name"]] = newString;
+                                          });
+                                        },
+                                      )),
+                                  const Padding(
+                                      padding: EdgeInsets.all(10))
+                                ]);
+                          } else if (data.values.toList()[index - 1]
+                                  [index2]["type"] ==
+                              "bool") {
+                            addBoolValue(data.values.toList()[index - 1]
+                                [index2]["name"]);
+                            return Column(
+                              crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                              children: <Widget>[
+                                Container(
+                                    padding: const EdgeInsets.all(5),
+                                    child: Text(
+                                      data.values.toList()[index - 1]
+                                          [index2]["name"],
+                                      style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    )),
+                                Row(children: <Widget>[
+                                  Checkbox(
+                                    value: boolValues[
+                                        data.values.toList()[index - 1]
+                                            [index2]["name"]],
+                                    onChanged: (bool? value) {
+                                      setState(() {
+                                        if (value != null) {
+                                          boolValues[data.values
+                                                  .toList()[index - 1]
+                                              [index2]["name"]] = value;
+                                        }
+                                      });
+                                    },
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.all(5)),
+                                  Text(
+                                    boolValues[data.values
+                                                    .toList()[index - 1]
+                                                [index2]["name"]] ??
+                                            false
+                                        ? "Yes"
+                                        : "No",
+                                    style: const TextStyle(
+                                      fontSize: 18,
+                                    ),
+                                  )
+                                ]),
+                                const Padding(padding: EdgeInsets.all(10))
+                              ],
+                            );
+                          } else if (data.values.toList()[index - 1]
+                                  [index2]["type"] ==
+                              "counter") {
+                            addCounter(data.values.toList()[index - 1]
+                                [index2]["name"]);
+                            return Column(
+                                crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Padding(
+                                      padding: const EdgeInsets.all(5),
+                                      child: Text(
+                                        data.values.toList()[index - 1]
+                                            [index2]["name"],
+                                        style: const TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.bold),
+                                      )),
+                                  Row(
+                                    mainAxisAlignment: MediaQuery.of(context).size.width > 700 
+                                      ? MainAxisAlignment.start 
+                                      : MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            decrementCounter(data.values
+                                                    .toList()[index - 1]
+                                                [index2]["name"]);
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const CircleBorder(),
+                                        ),
+                                        child: const Text("-",
+                                            style: TextStyle(
+                                                fontWeight:
+                                                    FontWeight.bold,
+                                                fontSize: 24)),
+                                      ),
+                                      const Padding(
+                                          padding: EdgeInsets.all(5)),
+                                      Text(
+                                          counterValues[data.values
+                                                      .toList()[index - 1]
+                                                  [index2]["name"]]
+                                              .toString(),
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 24)),
+                                      const Padding(
+                                          padding: EdgeInsets.all(5)),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            incrementCounter(data.values
+                                                    .toList()[index - 1]
+                                                [index2]["name"]);
+                                          });
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          shape: const CircleBorder(),
+                                        ),
+                                        child: const Text("+",
+                                            style: TextStyle(
+                                                fontWeight:
+                                                    FontWeight.bold,
+                                                fontSize: 24)),
+                                      ),
+                                    ],
+                                  ),
+                                  const Padding(
+                                      padding: EdgeInsets.all(10))
+                                ]);
+                          }
+                          return const Text("Failed to create widget");
+                        }
+                      ),
+                  )
+                ]
+              );
+            },
+          ),
+    );
   }
 }
