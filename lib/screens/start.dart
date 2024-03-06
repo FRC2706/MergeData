@@ -79,48 +79,58 @@ class _StartState extends State<StartPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
-      floatingActionButton: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
+      floatingActionButton: Stack(
         children: [
-          FloatingActionButton(
-            onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: Text('Delete all local games?'),
-                    content: Text('This action cannot be undone!!', style: TextStyle(color: Colors.red)),
-                    actions: [
-                      TextButton(
-                        child: Text('Yes'),
-                        onPressed: () {
-                          deleteAllGames();
-                          Navigator.of(context).pop();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('All local games deleted.')),
-                          );
-                        },
-                      ),
-                      TextButton(
-                        child: Text('No'),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                    ],
+          Align(
+            alignment: Alignment.bottomLeft,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(32.0, 8.0, 8.0, 8.0),
+              child: FloatingActionButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Delete all local games?'),
+                        content: Text('This action cannot be undone!!', style: TextStyle(color: Colors.red)),
+                        actions: [
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () {
+                              deleteAllGames();
+                              Navigator.of(context).pop();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('All local games deleted.')),
+                              );
+                            },
+                          ),
+                          TextButton(
+                            child: Text('No'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
-              );
-            },
-            child: Icon(Icons.delete),
+                child: Icon(Icons.delete),
+              ),
+            ),
           ),
-          SizedBox(width: 10),
-          FloatingActionButton(
-            onPressed: launchIssues,
-            tooltip: 'Report an issue',
+          Align(
+            alignment: Alignment.bottomRight,
             child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: SvgPicture.asset("assets/images/github.svg"),
+              padding: const EdgeInsets.all(8.0),
+              child: FloatingActionButton(
+                onPressed: launchIssues,
+                tooltip: 'Report an issue',
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SvgPicture.asset("assets/images/github.svg"),
+                ),
+              ),
             ),
           ),
         ],

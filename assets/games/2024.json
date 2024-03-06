@@ -58,31 +58,31 @@
   ],
   "TeleOp": [
     {
-      "name": "TeleOp Notes Picked Up From Ground",
+      "name": "Picked UP: Ground",
       "type": "counter"
     },
     {
-      "name": "TeleOp Notes Picked Up From Source",
+      "name": "Picked Up: Source",
       "type": "counter"
     },
     {
-      "name": "TeleOp Notes Dropped",
+      "name": "Notes: Dropped",
       "type": "counter"
     },
     {
-      "name": "TeleOp Amp Scores",
+      "name": "Amp: Scores",
       "type": "counter"
     },
     {
-      "name": "TeleOp Amp Misses",
+      "name": "Amp Misses",
       "type": "counter"
     },
     {
-      "name": "TeleOp Speaker Scores",
+      "name": "Speaker: Scores",
       "type": "counter"
     },
     {
-      "name": "TeleOp Speaker Misses",
+      "name": "Speaker: Misses",
       "type": "counter"
     },
     {
