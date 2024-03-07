@@ -173,7 +173,7 @@ class _SendDataState extends State<SendData> {
                     ),
                   ),
                 const Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(15),
                 )
               ],
             ),

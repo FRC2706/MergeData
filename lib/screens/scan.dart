@@ -21,7 +21,8 @@ class ScanResultsPage extends StatefulWidget {
 class _ScanResultsPageState extends State<ScanResultsPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
-  bool sentData = false;
+  Map resultDataMap = {};
+  bool isGame = false;
   QRViewController? controller;
 
   void sendData(values, isGame) {
@@ -43,6 +44,16 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title, style: const TextStyle(color: Colors.black)),
       ),
+      floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            if (result != null) {
+              sendData(resultDataMap, isGame);
+            } else {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text("No QR code found!")));
+            }
+          },
+          child: const Icon(Icons.send)),
       body: Column(
         children: <Widget>[
           Expanded(
@@ -68,12 +79,11 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
       result = scanData;
-      if (result != null && !sentData) {
-        sentData = true;
+      if (result != null) {
         String? resultData = result!.code;
         try {
-          Map? resultDataMap = jsonDecode(resultData!);
-          bool? isGame = resultDataMap!['isGame'] == "y" ? true : false;
+          resultDataMap = jsonDecode(resultData!);
+          isGame = resultDataMap['isGame'] == "y" ? true : false;
           resultDataMap.remove("isGame");
           sendData(resultDataMap, isGame);
         } catch (e) {
