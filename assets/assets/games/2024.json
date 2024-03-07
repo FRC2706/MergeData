@@ -12,12 +12,6 @@
       "type": "text"
     },
     {
-      "name": "Match Level",
-      "choices": ["Quals", "Semifinals", "Finals"],
-      "required": true,
-      "type": "radio"
-    },
-    {
       "name": "Match #",
       "required": true,
       "type": "number"
@@ -86,18 +80,10 @@
       "type": "counter"
     },
     {
-      "name": "Times Amplified",
-      "type": "counter"
-    },
-    {
       "name": "Pickup From",
       "type": "radio",
       "choices": ["Source", "Floor", "Both", "Not Attempted"],
       "required": true
-    },
-    {
-      "name": "Pressed cooperation button",
-      "type": "bool"
     },
     {
       "name": "Died :( [time is logged when clicked]",
@@ -109,19 +95,13 @@
       "name": "Final Status",
       "type": "radio",
       "required": true,
-      "choices": ["Parked", "Onstage", "Onstage (Spotlit)", "Harmony", "Attempted but failed :(", "Not attempted"]
+      "choices": ["Parked (touching stage)", "Onstage (climb)", "Harmony (climb with friend)", "Onstage (Spotlit)", "Attempted but failed :(", "Not attempted"]
     },
     {
       "name": "Note in Trap",
       "type": "radio",
       "required": true,
       "choices": ["Not attempted", "Yes", "Attempted, but failed"]
-    },
-    {
-      "name": "Cilmb",
-      "type": "radio",
-      "required": true,
-      "choices": ["Not attempted", "Yes, alone", "Yes, with teammate", "Attempted, but failed"]
     }
   ],
   "PostMatch": [
