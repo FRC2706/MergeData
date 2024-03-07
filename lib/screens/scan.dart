@@ -85,7 +85,6 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
           resultDataMap = jsonDecode(resultData!);
           isGame = resultDataMap['isGame'] == "y" ? true : false;
           resultDataMap.remove("isGame");
-          sendData(resultDataMap, isGame);
         } catch (e) {
           print('Error decoding JSON: $e');
         }
