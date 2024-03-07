@@ -157,6 +157,13 @@ class _SendDataState extends State<SendData> {
                     subtitle: Text(entry.value),
                   );
                 }).toList(),
+                if (widget.justSend)
+                  const Padding(
+                      padding: EdgeInsets.all(15),
+                      child: Text(
+                          "Press the send button to automatically send all saved data!",
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold))),
                 if (showQR)
                   Center(
                     child: QrImageView(
@@ -166,7 +173,7 @@ class _SendDataState extends State<SendData> {
                     ),
                   ),
                 const Padding(
-                  padding: EdgeInsets.all(5),
+                  padding: EdgeInsets.all(15),
                 )
               ],
             ),
