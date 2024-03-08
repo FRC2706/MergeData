@@ -47,8 +47,50 @@ class _SendDataState extends State<SendData> {
     await prefs.setStringList('savedGames', savedGames);
   }
 
-  Future<void> sendDataToGoogleSheets() async {
+  Future<void> validate() async {
     await loadEnv();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
+
+    if (!isAuthenticated) {
+      String? passcode;
+      await showDialog<String>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Enter passcode'),
+            content: TextField(
+              obscureText: true,
+              onChanged: (value) {
+                passcode = value; // Update passcode
+              },
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+
+      if (passcode == dotenv.env['PASSCODE']) {
+        await prefs.setBool('isAuthenticated', true);
+        sendDataToGoogleSheets();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Wrong passcode!")),
+        );
+      }
+    } else { // already authenticated
+      sendDataToGoogleSheets();
+    }
+  }
+
+  Future<void> sendDataToGoogleSheets() async {
     String message = '';
 
     try {
@@ -78,9 +120,6 @@ class _SendDataState extends State<SendData> {
             }
             // Clear the saved games after sending them
             final a = await prefs.setStringList('savedGames', []);
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Cleared games: $a')),
-            );
           }
 
           // Send current game
@@ -124,7 +163,7 @@ class _SendDataState extends State<SendData> {
                           title:
                               Text('Are you sure you want to return to home?'),
                           content: Text(
-                              'All unsaved data will be sent to the shadow realm.',
+                              'All unsaved data will be sent to the shadow realm. If the page behind is blank anyway, no worries.',
                               style:
                                   TextStyle(fontSize: 12, color: Colors.red)),
                           actions: [
@@ -275,7 +314,7 @@ class _SendDataState extends State<SendData> {
                                     );
                                   },
                                 );
-                                sendDataToGoogleSheets().then((_) {
+                                validate().then((_) { //send to google sheets, but authenticate first
                                   if (!isCancelled) {
                                     Navigator.of(context).pop();
                                   }
