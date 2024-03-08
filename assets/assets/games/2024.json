@@ -7,9 +7,9 @@
     },
     {
       "name": "Event",
-      "defaultValue": "insert code for north bay",
+      "choices": ["Newmarket", "North Bay"],
       "required": true,
-      "type": "text"
+      "type": "radio"
     },
     {
       "name": "Match #",
