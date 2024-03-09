@@ -26,11 +26,28 @@ class _SendDataState extends State<SendData> {
   String? dataString;
   bool showQR = false;
   bool isCancelled = false;
+  List<String> savedGamesArray = [];
 
   late GSheets _gsheets;
   late String _spreadsheetId;
   late String _gameWorksheetName;
   late String _pitWorksheetName;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocalGames().then((_) {
+      setState(() {}); //refresh, very unpracitical but this is a hotfix after all :P ...
+    });
+  }
+
+  Future<void> getLocalGames() async {
+    final prefs = await SharedPreferences.getInstance();
+    var savedGamesString = prefs.getStringList('savedGames') ?? [];
+    for (var game in savedGamesString) {
+      savedGamesArray.add(game.replaceAll(",", "\n"));
+    }
+  }
 
   Future<void> loadEnv() async {
     await dotenv.load(fileName: ".env");
@@ -197,12 +214,13 @@ class _SendDataState extends State<SendData> {
                   );
                 }).toList(),
                 if (widget.justSend)
-                  const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(
-                          "Press the send button to automatically send all saved data!",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      savedGamesArray.join('\n\n\n'),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),      
+                    ),
+                  ),
                 if (showQR)
                   Center(
                     child: QrImageView(
@@ -221,6 +239,7 @@ class _SendDataState extends State<SendData> {
               children: [
                 if (!showQR)
                   FloatingActionButton(
+                    heroTag: "qr",
                     child: Icon(Icons.qr_code),
                     onPressed: () {
                       setState(() {
@@ -235,8 +254,9 @@ class _SendDataState extends State<SendData> {
                     },
                   ),
                 SizedBox(width: 10), // Add some spacing between the buttons
-                if (widget.isGame && !widget.justSend)
+                if (!widget.justSend)
                   FloatingActionButton(
+                    heroTag: "archive",
                     child: Icon(Icons.archive),
                     onPressed: () {
                       showDialog(
@@ -275,6 +295,7 @@ class _SendDataState extends State<SendData> {
 
                 SizedBox(width: 10),
                 FloatingActionButton(
+                  heroTag: "send",
                   child: Icon(Icons.send),
                   onPressed: () {
                     showDialog(
