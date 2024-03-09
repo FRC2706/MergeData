@@ -26,11 +26,28 @@ class _SendDataState extends State<SendData> {
   String? dataString;
   bool showQR = false;
   bool isCancelled = false;
+  List<String> savedGamesArray = [];
 
   late GSheets _gsheets;
   late String _spreadsheetId;
   late String _gameWorksheetName;
   late String _pitWorksheetName;
+
+  @override
+  void initState() {
+    super.initState();
+    getLocalGames().then((_) {
+      setState(() {}); //refresh, very unpracitical but this is a hotfix after all :P ...
+    });
+  }
+
+  Future<void> getLocalGames() async {
+    final prefs = await SharedPreferences.getInstance();
+    var savedGamesString = prefs.getStringList('savedGames') ?? [];
+    for (var game in savedGamesString) {
+      savedGamesArray.add(game.replaceAll(",", "\n"));
+    }
+  }
 
   Future<void> loadEnv() async {
     await dotenv.load(fileName: ".env");
@@ -140,45 +157,12 @@ class _SendDataState extends State<SendData> {
     Navigator.of(context).pop();
   }
 
-  Future<void> getLocalGames() async {
-    final prefs = await SharedPreferences.getInstance();
-    final savedGames = prefs.getStringList('savedGames') ?? [];
-    renderLocalGames(savedGames);
-  }
-
-  Padding renderLocalGames(savedGames) {
-    var games = [];
-    for (final game in savedGames) {
-      print('Saved game: $game');
-      games.add(jsonDecode(game));
-    }
-  
-    return Padding(
-      padding: EdgeInsets.all(15),
-      child: ListView.builder(
-        itemCount: savedGames.length,
-        itemBuilder: (context, index) {
-          return Hero(
-            tag: 'game$index',
-            child: Text(
-              savedGames[index],
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            )Zz
-          );
-        },
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: loadEnv(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          if (widget.justSend) {
-            getLocalGames();
-          }
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -230,12 +214,13 @@ class _SendDataState extends State<SendData> {
                   );
                 }).toList(),
                 if (widget.justSend)
-                  const Padding(
-                      padding: EdgeInsets.all(15),
-                      child: Text(
-                          "Press the send button to automatically send all saved data!",
-                          style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold))),
+                  Padding(
+                    padding: EdgeInsets.all(15),
+                    child: Text(
+                      savedGamesArray.join('\n\n\n'),
+                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),      
+                    ),
+                  ),
                 if (showQR)
                   Center(
                     child: QrImageView(
