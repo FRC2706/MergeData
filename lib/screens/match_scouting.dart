@@ -151,7 +151,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
           bunchValues[item['name']] = radioControllers[item['name']] ?? '';
         } else if (item['type'] == "bool") {
           bunchValues[item['name']] =
-              (boolValues[item['name']] ?? false) ? "Yes" : "No";
+              (boolValues[item['name']] ?? false) ? "Current value: Yes" : "Current value: No";
         } else if (item['type'] == "counter") {
           bunchValues[item['name']] =
               (counterValues[item['name']] ?? 0).toString();
@@ -564,8 +564,8 @@ Widget build(BuildContext context) {
                                                     .toList()[index - 1]
                                                 [index2]["name"]] ??
                                             false
-                                        ? "Yes"
-                                        : "No",
+                                        ? "Current value: Yes"
+                                        : "Current value: No",
                                     style: const TextStyle(
                                       fontSize: 18,
                                     ),

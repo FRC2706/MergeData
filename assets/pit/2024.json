@@ -37,7 +37,17 @@
       "type": "text"
     },
     {
-      "name": "Comments (go crazy)",
+      "name": "Where can they score?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Endgame: Can they climb?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Other comments",
       "required": false,
       "type": "text"
     }
