@@ -140,12 +140,45 @@ class _SendDataState extends State<SendData> {
     Navigator.of(context).pop();
   }
 
+  Future<void> getLocalGames() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedGames = prefs.getStringList('savedGames') ?? [];
+    renderLocalGames(savedGames);
+  }
+
+  Padding renderLocalGames(savedGames) {
+    var games = [];
+    for (final game in savedGames) {
+      print('Saved game: $game');
+      games.add(jsonDecode(game));
+    }
+  
+    return Padding(
+      padding: EdgeInsets.all(15),
+      child: ListView.builder(
+        itemCount: savedGames.length,
+        itemBuilder: (context, index) {
+          return Hero(
+            tag: 'game$index',
+            child: Text(
+              savedGames[index],
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            )Zz
+          );
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
       future: loadEnv(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          if (widget.justSend) {
+            getLocalGames();
+          }
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -221,6 +254,7 @@ class _SendDataState extends State<SendData> {
               children: [
                 if (!showQR)
                   FloatingActionButton(
+                    heroTag: "qr",
                     child: Icon(Icons.qr_code),
                     onPressed: () {
                       setState(() {
@@ -235,8 +269,9 @@ class _SendDataState extends State<SendData> {
                     },
                   ),
                 SizedBox(width: 10), // Add some spacing between the buttons
-                if (widget.isGame && !widget.justSend)
+                if (!widget.justSend)
                   FloatingActionButton(
+                    heroTag: "archive",
                     child: Icon(Icons.archive),
                     onPressed: () {
                       showDialog(
@@ -275,6 +310,7 @@ class _SendDataState extends State<SendData> {
 
                 SizedBox(width: 10),
                 FloatingActionButton(
+                  heroTag: "send",
                   child: Icon(Icons.send),
                   onPressed: () {
                     showDialog(
