@@ -23,6 +23,12 @@
       "type": "radio"
     },
     {
+      "name": "Starting Postition",
+      "choices": ["1", "2", "3"],
+      "required": true,
+      "type": "radio"
+    },
+    {
       "name": "Team #",
       "required": false,
       "type": "number"
@@ -35,10 +41,6 @@
     },
     {
       "name": "Notes Picked Up",
-      "type": "counter"
-    },
-    {
-      "name": "Notes Dropped",
       "type": "counter"
     },
     {
@@ -106,38 +108,11 @@
   ],
   "PostMatch": [
     {
-      "name": "Driver Skill",
-      "type": "radio",
-      "required": true,
-      "choices": ["Not Observed", "Not Effective", "Average", "Very Effective"]
-    },
-    {
-      "name": "Defense Rating",
-      "type": "radio",
-      "required": true,
-      "choices": ["Below Average", "Average", "Good", "Excellent", "Did not play defense :("]
-    
-    },
-    {
-      "name": "Speed Rating",
-      "type": "radio",
-      "required": true,
-      "choices": ["1 (slow)", "2", "3", "4", "5 (fast)"]
-    },
-    {
-      "name": "Tippy, looks like it'll fall over",
-      "type": "bool"
-    },
-    {
-      "name": "Dropped Notes (>2)",
-      "type": "bool"
-    },
-    {
-      "name": "Make good alliance partner?",
-      "type": "bool"
-    },
-    {
       "name": "Comments",
+      "type": "text"
+    },
+    {
+      "name": "Penalities descriptions (if any)",
       "type": "text"
     }
   ]
