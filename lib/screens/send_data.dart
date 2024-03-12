@@ -52,6 +52,16 @@ class _SendDataState extends State<SendData> {
   }
 
   Future<void> loadEnv() async {
+    String envString;
+    try {
+      envString = await rootBundle.loadString('.env');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('The .env file could not be found')),
+      );
+      return;
+    }
+
     try {
       await dotenv.load(fileName: ".env").timeout(Duration(seconds: 5));
       _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
