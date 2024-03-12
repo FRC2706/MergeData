@@ -69,6 +69,17 @@ class _SendDataState extends State<SendData> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
 
+    if (isAuthenticated) {
+      SnackBar(
+        content: Text("Authenticated"),
+      );
+    } else {
+      SnackBar(
+        content: Text("Not authenticated"),
+      );
+    }
+    
+
     if (!isAuthenticated) {
       String? passcode;
       await showDialog<String>(
