@@ -64,7 +64,7 @@ class _SendDataState extends State<SendData> {
     await prefs.setStringList('savedGames', savedGames);
   }
 
-  Future<void> validate() async {
+  Future<void> validate() {//async {
 
     SnackBar(
       content: Text("OPENING THE ENV FILE"),
