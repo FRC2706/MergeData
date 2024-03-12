@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData extends StatefulWidget {
@@ -70,10 +70,11 @@ class _SendDataState extends State<SendData> {
       content: Text("OPENING THE ENV FILE"),
     );
 
-    await loadEnv();
+    await dotenv.load();
+    String passcode = dotenv.env['PASSCODE'];
 
     SnackBar(
-      content: Text("ENV FILE LOADED"),
+      content: Text("ENV FILE LOADED. PASSCODE: $passcode"),
     );
 
 
