@@ -65,22 +65,17 @@ class _SendDataState extends State<SendData> {
   }
 
   Future<void> validate() async {
-    await loadEnv();
+
+    SnackBar(
+      content: Text("OPENING THE ENV FILE"),
+    );
+
+    /*await loadEnv();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
+    */
 
-    if (isAuthenticated) {
-      SnackBar(
-        content: Text("Authenticated"),
-      );
-    } else {
-      SnackBar(
-        content: Text("Not authenticated"),
-      );
-    }
-    
-
-    if (!isAuthenticated) {
+    /*if (!isAuthenticated) {
       String? passcode;
       await showDialog<String>(
         context: context,
@@ -115,7 +110,7 @@ class _SendDataState extends State<SendData> {
       }
     } else { // already authenticated
       sendDataToGoogleSheets();
-    }
+    }*/
   }
 
   Future<void> sendDataToGoogleSheets() async {
