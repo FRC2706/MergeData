@@ -174,7 +174,6 @@ class _SendDataState extends State<SendData> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadEnv(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
