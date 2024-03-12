@@ -64,11 +64,18 @@ class _SendDataState extends State<SendData> {
     await prefs.setStringList('savedGames', savedGames);
   }
 
-  Future<void> validate() {//async {
+  Future<void> validate() async {
 
     SnackBar(
       content: Text("OPENING THE ENV FILE"),
     );
+
+    await loadEnv();
+
+    SnackBar(
+      content: Text("ENV FILE LOADED"),
+    );
+
 
     /*await loadEnv();
     SharedPreferences prefs = await SharedPreferences.getInstance();
