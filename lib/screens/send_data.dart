@@ -70,11 +70,10 @@ class _SendDataState extends State<SendData> {
       content: Text("OPENING THE ENV FILE"),
     );
 
-    await dotenv.load();
-    String passcode = dotenv.env['PASSCODE'];
+    await loadEnv();
 
     SnackBar(
-      content: Text("ENV FILE LOADED. PASSCODE: $passcode"),
+      content: Text("ENV FILE LOADED"),
     );
 
 
@@ -174,6 +173,7 @@ class _SendDataState extends State<SendData> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
+      future: loadEnv(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
