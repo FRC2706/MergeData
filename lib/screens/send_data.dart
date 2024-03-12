@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart' as dotenv;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData extends StatefulWidget {
