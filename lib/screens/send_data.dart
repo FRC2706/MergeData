@@ -32,6 +32,7 @@ class _SendDataState extends State<SendData> {
   late String _spreadsheetId;
   late String _gameWorksheetName;
   late String _pitWorksheetName;
+  late String _passcode;
 
   @override
   void initState() {
@@ -50,13 +51,24 @@ class _SendDataState extends State<SendData> {
   }
 
   Future<void> loadEnv() async {
-    await dotenv.load(fileName: ".env");
-    _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
-    _spreadsheetId = dotenv.env['SPREADSHEET_ID']!;
-    _gameWorksheetName = dotenv.env['GAME_WORKSHEET_NAME']!;
-    _pitWorksheetName = dotenv.env['PIT_WORKSHEET_NAME']!;
+    try {
+      await dotenv.load(fileName: ".env").timeout(Duration(seconds: 5));
+      _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
+      _spreadsheetId = dotenv.env['SPREADSHEET_ID']!;
+      _gameWorksheetName = dotenv.env['GAME_WORKSHEET_NAME']!;
+      _pitWorksheetName = dotenv.env['PIT_WORKSHEET_NAME']!;
+      _passcode = dotenv.env['PASSCODE']!;
+    } on TimeoutException catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Loading environment variables timed out')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('An error occurred while loading environment variables')),
+      );
+    }
   }
-
+  
   Future<void> saveDataLocally() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGames = prefs.getStringList('savedGames') ?? [];
@@ -65,22 +77,9 @@ class _SendDataState extends State<SendData> {
   }
 
   Future<void> validate() async {
-
-    SnackBar(
-      content: Text("OPENING THE ENV FILE"),
-    );
-
     await loadEnv();
-
-    SnackBar(
-      content: Text("ENV FILE LOADED"),
-    );
-
-
-    /*await loadEnv();
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
-    */
 
     /*if (!isAuthenticated) {
       String? passcode;
