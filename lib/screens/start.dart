@@ -52,8 +52,7 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            SendData(data: {}, isGame: true, justSend: true),
+        builder: (context) => SendData(data: {}, isGame: true, justSend: true),
       ),
     );
   }
@@ -70,6 +69,67 @@ class _StartState extends State<StartPage> {
   Future<void> deleteAllGames() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('savedGames');
+  }
+
+  Future<void> saveApiKey(String apiKey) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('apiKey', apiKey);
+  }
+
+  Future<void> promptForApiKey() async {
+    final prefs = await SharedPreferences.getInstance();
+    String apiKey = prefs.getString('apiKey') ?? '';
+    bool obscureText = true;
+
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setState) {
+            return AlertDialog(
+              title: Text('Enter API Key'),
+              content: TextField(
+                controller: TextEditingController(text: apiKey),
+                obscureText: obscureText,
+                onChanged: (value) {
+                  apiKey = value;
+                },
+                decoration: InputDecoration(
+                  hintText: "API Key",
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                        obscureText ? Icons.visibility_off : Icons.visibility),
+                    onPressed: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              actions: [
+                TextButton(
+                  child: Text('Save'),
+                  onPressed: () {
+                    saveApiKey(apiKey);
+                    Navigator.of(context).pop();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('API Key saved.')),
+                    );
+                  },
+                ),
+                TextButton(
+                  child: Text('Cancel'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -92,7 +152,8 @@ class _StartState extends State<StartPage> {
                     builder: (BuildContext context) {
                       return AlertDialog(
                         title: Text('Delete all local games?'),
-                        content: Text('This action cannot be undone!!', style: TextStyle(color: Colors.red)),
+                        content: Text('This action cannot be undone!!',
+                            style: TextStyle(color: Colors.red)),
                         actions: [
                           TextButton(
                             child: Text('Yes'),
@@ -100,7 +161,8 @@ class _StartState extends State<StartPage> {
                               deleteAllGames();
                               Navigator.of(context).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('All local games deleted.')),
+                                SnackBar(
+                                    content: Text('All local games deleted.')),
                               );
                             },
                           ),
@@ -123,13 +185,24 @@ class _StartState extends State<StartPage> {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FloatingActionButton(
-                onPressed: launchIssues,
-                tooltip: 'Report an issue',
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: SvgPicture.asset("assets/images/github.svg"),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  FloatingActionButton(
+                    onPressed: launchIssues,
+                    tooltip: 'Report an issue',
+                    child: Padding(
+                      padding: const EdgeInsets.all(10),
+                      child: SvgPicture.asset("assets/images/github.svg"),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  FloatingActionButton(
+                    onPressed: promptForApiKey,
+                    tooltip: 'Enter API Key',
+                    child: Icon(Icons.settings, size: 30.0),
+                  ),
+                ],
               ),
             ),
           ),
@@ -141,7 +214,8 @@ class _StartState extends State<StartPage> {
           children: <Widget>[
             ElevatedButton(
               onPressed: matchScouting,
-              child: const Text("Match Scouting", style: TextStyle(fontSize: 28)),
+              child:
+                  const Text("Match Scouting", style: TextStyle(fontSize: 28)),
             ),
             const Padding(padding: EdgeInsets.all(10)),
             ElevatedButton(
@@ -155,7 +229,9 @@ class _StartState extends State<StartPage> {
             ),
             const Padding(padding: EdgeInsets.all(10)),
             StreamBuilder<List<String>>(
-              stream: Stream.periodic(Duration(seconds: 1)).asyncMap((_) => SharedPreferences.getInstance().then((prefs) => prefs.getStringList('savedGames') ?? [])),
+              stream: Stream.periodic(Duration(seconds: 1)).asyncMap((_) =>
+                  SharedPreferences.getInstance().then(
+                      (prefs) => prefs.getStringList('savedGames') ?? [])),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return ElevatedButton(
@@ -165,7 +241,8 @@ class _StartState extends State<StartPage> {
                 } else {
                   return ElevatedButton(
                     onPressed: sendData,
-                    child: Text('Upload Local Saves (${snapshot.data!.length})', style: TextStyle(fontSize: 28)),
+                    child: Text('Upload Local Saves (${snapshot.data!.length})',
+                        style: TextStyle(fontSize: 28)),
                   );
                 }
               },

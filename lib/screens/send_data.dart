@@ -1,9 +1,11 @@
+import 'dart:convert';
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:qr_flutter/qr_flutter.dart';
-import 'dart:convert';
 import 'package:gsheets/gsheets.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SendData extends StatefulWidget {
@@ -32,12 +34,14 @@ class _SendDataState extends State<SendData> {
   late String _spreadsheetId;
   late String _gameWorksheetName;
   late String _pitWorksheetName;
+  late String _passcode;
 
   @override
   void initState() {
     super.initState();
     getLocalGames().then((_) {
-      setState(() {}); //refresh, very unpracitical but this is a hotfix after all :P ...
+      setState(
+          () {}); //refresh, very unpracitical but this is a hotfix after all :P ...
     });
   }
 
@@ -49,12 +53,31 @@ class _SendDataState extends State<SendData> {
     }
   }
 
-  Future<void> loadEnv() async {
-    await dotenv.load(fileName: ".env");
-    _gsheets = GSheets(dotenv.env['GOOGLE_SHEETS_DATA']!);
-    _spreadsheetId = dotenv.env['SPREADSHEET_ID']!;
-    _gameWorksheetName = dotenv.env['GAME_WORKSHEET_NAME']!;
-    _pitWorksheetName = dotenv.env['PIT_WORKSHEET_NAME']!;
+  Future<Map> fetchApi(String key) async {
+    var a = await http.get(Uri.parse(
+        'https://ryanidkproductions.com/api/mergedata?key=$key')); // temp api host
+    if (a.statusCode == 200) {
+      return jsonDecode(a.body);
+    } else {
+      return {"Error": "Invalid API key"};
+    }
+  }
+
+  Future<void> loadApi() async {
+    final prefs = await SharedPreferences.getInstance();
+    String apiKey = prefs.getString('apiKey') ?? '';
+    Map apiResponse = await fetchApi(apiKey);
+
+    if (apiResponse.containsKey("Error")) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid or no API key entered')),
+      );
+    } else {
+      _gsheets = GSheets(apiResponse["GOOGLE_SHEETS_DATA"]);
+      _spreadsheetId = apiResponse["SPREADSHEET_ID"];
+      _gameWorksheetName = apiResponse["GAME_WORKSHEET_NAME"];
+      _pitWorksheetName = apiResponse["PIT_WORKSHEET_NAME"];
+    }
   }
 
   Future<void> saveDataLocally() async {
@@ -62,60 +85,6 @@ class _SendDataState extends State<SendData> {
     final savedGames = prefs.getStringList('savedGames') ?? [];
     savedGames.add(jsonEncode(widget.data));
     await prefs.setStringList('savedGames', savedGames);
-  }
-
-  Future<void> validate() async {
-    await loadEnv();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
-
-    if (isAuthenticated) {
-      SnackBar(
-        content: Text("Authenticated"),
-      );
-    } else {
-      SnackBar(
-        content: Text("Not authenticated"),
-      );
-    }
-    
-
-    if (!isAuthenticated) {
-      String? passcode;
-      await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Enter passcode'),
-            content: TextField(
-              obscureText: true,
-              onChanged: (value) {
-                passcode = value; // Update passcode
-              },
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-
-      if (passcode == dotenv.env['PASSCODE']) {
-        await prefs.setBool('isAuthenticated', true);
-        sendDataToGoogleSheets();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Wrong passcode!")),
-        );
-      }
-    } else { // already authenticated
-      sendDataToGoogleSheets();
-    }
   }
 
   Future<void> sendDataToGoogleSheets() async {
@@ -159,7 +128,7 @@ class _SendDataState extends State<SendData> {
         }
       }
     } catch (e) {
-      message = 'Shep Error!: $e';
+      message = 'Could not send data to sheets!';
       print(e);
     }
 
@@ -171,7 +140,7 @@ class _SendDataState extends State<SendData> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadEnv(),
+      future: loadApi(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
@@ -229,7 +198,8 @@ class _SendDataState extends State<SendData> {
                     padding: EdgeInsets.all(15),
                     child: Text(
                       savedGamesArray.join('\n\n\n'),
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),      
+                      style: const TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
                     ),
                   ),
                 if (showQR)
@@ -346,7 +316,8 @@ class _SendDataState extends State<SendData> {
                                     );
                                   },
                                 );
-                                validate().then((_) { //send to google sheets, but authenticate first
+                                sendDataToGoogleSheets().then((_) {
+                                  //send to google sheets, but authenticate first
                                   if (!isCancelled) {
                                     Navigator.of(context).pop();
                                   }
