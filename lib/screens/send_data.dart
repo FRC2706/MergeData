@@ -12,12 +12,14 @@ class SendData extends StatefulWidget {
   final Map<String, String> data;
   final bool isGame;
   final bool justSend;
+  final String api;
 
   SendData(
       {Key? key,
       required this.data,
       required this.isGame,
-      this.justSend = false})
+      this.justSend = false,
+      required this.api})
       : super(key: key);
 
   @override
@@ -54,8 +56,7 @@ class _SendDataState extends State<SendData> {
   }
 
   Future<Map> fetchApi(String key) async {
-    var a = await http.get(Uri.parse(
-        'https://ryanidkproductions.com/api/mergedata?key=$key')); // temp api host
+    var a = await http.get(Uri.parse('${widget.api}?key=$key'));
     if (a.statusCode == 200) {
       return jsonDecode(a.body);
     } else {

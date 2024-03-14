@@ -5,10 +5,12 @@ import 'dart:async';
 import 'send_data.dart';
 
 class MatchScoutingPage extends StatefulWidget {
-  const MatchScoutingPage({super.key, required this.title, required this.year});
+  const MatchScoutingPage(
+      {super.key, required this.title, required this.year, required this.api});
 
   final String title;
   final int year;
+  final String api;
 
   @override
   State<MatchScoutingPage> createState() => _MatchScoutingState();
@@ -190,9 +192,9 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => SendData(
-                            data: getBunchValues(),
-                            isGame: true,
-                          )),
+                          data: getBunchValues(),
+                          isGame: true,
+                          api: widget.api)),
                 );
               },
             ),

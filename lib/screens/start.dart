@@ -8,10 +8,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StartPage extends StatefulWidget {
-  const StartPage({super.key, required this.title, required this.year});
+  const StartPage(
+      {super.key, required this.title, required this.year, required this.api});
 
   final String title;
   final int year;
+  final String api;
 
   @override
   State<StartPage> createState() => _StartState();
@@ -22,8 +24,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            MatchScoutingPage(title: "Match Scouting", year: widget.year),
+        builder: (context) => MatchScoutingPage(
+            title: "Match Scouting", year: widget.year, api: widget.api),
       ),
     );
   }
@@ -32,8 +34,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            PitScoutingPage(title: "Pit Scouting", year: widget.year),
+        builder: (context) => PitScoutingPage(
+            title: "Pit Scouting", year: widget.year, api: widget.api),
       ),
     );
   }
@@ -42,8 +44,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            ScanResultsPage(title: "Scan Results", year: widget.year),
+        builder: (context) => ScanResultsPage(
+            title: "Scan Results", year: widget.year, api: widget.api),
       ),
     );
   }
@@ -52,7 +54,8 @@ class _StartState extends State<StartPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => SendData(data: {}, isGame: true, justSend: true),
+        builder: (context) =>
+            SendData(data: {}, isGame: true, justSend: true, api: widget.api),
       ),
     );
   }
