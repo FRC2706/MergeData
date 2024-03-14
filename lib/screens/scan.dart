@@ -21,7 +21,7 @@ class ScanResultsPage extends StatefulWidget {
 class _ScanResultsPageState extends State<ScanResultsPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
-  Map resultDataMap = {};
+  Map<String, String> resultDataMap = {};
   bool isGame = false;
   QRViewController? controller;
 
@@ -82,7 +82,9 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
       if (result != null) {
         String? resultData = result!.code;
         try {
-          resultDataMap = jsonDecode(resultData!);
+          Map<String, dynamic> decodedJson = jsonDecode(resultData!);
+          resultDataMap =
+              decodedJson.map((key, value) => MapEntry(key, value.toString()));
           isGame = resultDataMap['isGame'] == "y" ? true : false;
           resultDataMap.remove("isGame");
         } catch (e) {
