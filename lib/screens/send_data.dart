@@ -28,7 +28,7 @@ class _SendDataState extends State<SendData> {
   String? dataString;
   bool showQR = false;
   bool isCancelled = false;
-  List<String> savedGamesArray = [];
+  List<Map> savedGamesArray = [];
 
   late GSheets _gsheets;
   late String _spreadsheetId;
@@ -49,7 +49,7 @@ class _SendDataState extends State<SendData> {
     final prefs = await SharedPreferences.getInstance();
     var savedGamesString = prefs.getStringList('savedGames') ?? [];
     for (var game in savedGamesString) {
-      savedGamesArray.add(game.replaceAll(",", "\n"));
+      savedGamesArray.add(jsonDecode(game));
     }
   }
 
@@ -83,54 +83,74 @@ class _SendDataState extends State<SendData> {
   Future<void> saveDataLocally() async {
     final prefs = await SharedPreferences.getInstance();
     final savedGames = prefs.getStringList('savedGames') ?? [];
-    savedGames.add(jsonEncode(widget.data));
+    Map sillyData = {}; // silly way to avoid widget.data referenceing
+    widget.data.forEach((k, v) => sillyData[k] = v);
+    sillyData["isGame"] = widget.isGame ? "y" : "n";
+    savedGames.add(jsonEncode(sillyData));
     await prefs.setStringList('savedGames', savedGames);
   }
 
   Future<void> sendDataToGoogleSheets() async {
     String message = '';
 
-    try {
-      final ss = await _gsheets.spreadsheet(_spreadsheetId);
-      var sheet;
-      if (widget.isGame) {
-        sheet = ss.worksheetByTitle(_gameWorksheetName);
+    //try {
+    final ss = await _gsheets.spreadsheet(_spreadsheetId);
+    var sheet;
+    if (widget.isGame) {
+      sheet = ss.worksheetByTitle(_gameWorksheetName);
+    } else {
+      sheet = ss.worksheetByTitle(_pitWorksheetName);
+    }
+
+    if (sheet != null) {
+      // Check for locally stored games
+      final prefs = await SharedPreferences.getInstance();
+      final savedGames = prefs.getStringList('savedGames') ?? [];
+
+      if (savedGames.isEmpty && widget.data.isEmpty) {
+        message =
+            "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
       } else {
-        sheet = ss.worksheetByTitle(_pitWorksheetName);
-      }
-
-      if (sheet != null) {
-        // Check for locally stored games
-        final prefs = await SharedPreferences.getInstance();
-        final savedGames = prefs.getStringList('savedGames') ?? [];
-
-        if (savedGames.isEmpty && widget.data.isEmpty) {
-          message =
-              "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
-        } else {
-          if (widget.isGame) {
-            // Send locally stored games
-            for (final savedGame in savedGames) {
-              final gameData = jsonDecode(savedGame);
-              List<dynamic> values = gameData.values.toList();
-              await sheet.values.appendRow(values);
+        if (widget.isGame) {
+          // Send locally stored games
+          for (final savedGame in savedGames) {
+            Map gameData = jsonDecode(savedGame);
+            var curSheet = ss.worksheetByTitle(_pitWorksheetName);
+            try {
+              if (gameData["isGame"] == "y") {
+                curSheet = ss.worksheetByTitle(_gameWorksheetName);
+              }
+            } catch (e) {
+              message = "Invalid Save Data";
             }
-            // Clear the saved games after sending them
-            final a = await prefs.setStringList('savedGames', []);
+            try {
+              gameData.remove("isGame");
+            } catch (e) {}
+            List<dynamic> values = gameData.values.toList();
+            final curRes = await curSheet!.values.appendRow(values);
+            if (curRes) {
+              message = "Successfully sent saved data!";
+            }
           }
+          // Clear the saved games after sending them
+          final a = await prefs.setStringList('savedGames', []);
+        }
 
+        if (widget.data.values.isNotEmpty) {
           // Send current game
           final values = widget.data.values.toList();
+          print(values);
           final result = await sheet.values.appendRow(values);
           if (result) {
             message = 'Shep collected the data, thanks scout! o7';
           }
         }
       }
-    } catch (e) {
+    }
+    /*} catch (e) {
       message = 'Could not send data to sheets!';
       print(e);
-    }
+    }*/
 
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
@@ -194,14 +214,33 @@ class _SendDataState extends State<SendData> {
                   );
                 }).toList(),
                 if (widget.justSend)
-                  Padding(
-                    padding: EdgeInsets.all(15),
-                    child: Text(
-                      savedGamesArray.join('\n\n\n'),
-                      style: const TextStyle(
-                          fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  for (var entry in savedGamesArray) ...[
+                    if (entry["isGame"] == "y") ...[
+                      Padding(
+                          padding: const EdgeInsets.only(top: 15, left: 15),
+                          child: Text(
+                            "Saved Data ${savedGamesArray.indexOf(entry) + 1} (Match)",
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )),
+                    ] else ...[
+                      Padding(
+                          padding: const EdgeInsets.only(top: 15, left: 15),
+                          child: Text(
+                            "Saved Data ${savedGamesArray.indexOf(entry) + 1} (Pit)",
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )),
+                    ],
+                    for (var gameValue in entry.entries) ...[
+                      if (gameValue.key != "isGame") ...[
+                        ListTile(
+                          title: Text(gameValue.key),
+                          subtitle: Text(gameValue.value),
+                        ),
+                      ]
+                    ]
+                  ],
                 if (showQR)
                   Center(
                     child: QrImageView(
@@ -218,7 +257,7 @@ class _SendDataState extends State<SendData> {
             floatingActionButton: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                if (!showQR)
+                if (!showQR && !widget.justSend)
                   FloatingActionButton(
                     heroTag: "qr",
                     child: Icon(Icons.qr_code),
