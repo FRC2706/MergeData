@@ -94,64 +94,64 @@ class _SendDataState extends State<SendData> {
   Future<void> sendDataToGoogleSheets() async {
     String message = '';
 
-    //try {
-    final ss = await _gsheets.spreadsheet(_spreadsheetId);
-    var sheet;
-    if (widget.isGame) {
-      sheet = ss.worksheetByTitle(_gameWorksheetName);
-    } else {
-      sheet = ss.worksheetByTitle(_pitWorksheetName);
-    }
-
-    if (sheet != null) {
-      // Check for locally stored games
-      final prefs = await SharedPreferences.getInstance();
-      final savedGames = prefs.getStringList('savedGames') ?? [];
-
-      if (savedGames.isEmpty && widget.data.isEmpty) {
-        message =
-            "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
+    try {
+      final ss = await _gsheets.spreadsheet(_spreadsheetId);
+      var sheet;
+      if (widget.isGame) {
+        sheet = ss.worksheetByTitle(_gameWorksheetName);
       } else {
-        if (widget.isGame) {
-          // Send locally stored games
-          for (final savedGame in savedGames) {
-            Map gameData = jsonDecode(savedGame);
-            var curSheet = ss.worksheetByTitle(_pitWorksheetName);
-            try {
-              if (gameData["isGame"] == "y") {
-                curSheet = ss.worksheetByTitle(_gameWorksheetName);
-              }
-            } catch (e) {
-              message = "Invalid Save Data";
-            }
-            try {
-              gameData.remove("isGame");
-            } catch (e) {}
-            List<dynamic> values = gameData.values.toList();
-            final curRes = await curSheet!.values.appendRow(values);
-            if (curRes) {
-              message = "Successfully sent saved data!";
-            }
-          }
-          // Clear the saved games after sending them
-          final a = await prefs.setStringList('savedGames', []);
-        }
+        sheet = ss.worksheetByTitle(_pitWorksheetName);
+      }
 
-        if (widget.data.values.isNotEmpty) {
-          // Send current game
-          final values = widget.data.values.toList();
-          print(values);
-          final result = await sheet.values.appendRow(values);
-          if (result) {
-            message = 'Shep collected the data, thanks scout! o7';
+      if (sheet != null) {
+        // Check for locally stored games
+        final prefs = await SharedPreferences.getInstance();
+        final savedGames = prefs.getStringList('savedGames') ?? [];
+
+        if (savedGames.isEmpty && widget.data.isEmpty) {
+          message =
+              "Shep couldn\'t find any saved games to send! That means IT'S TIME TO GO SCOUTING SOME MORE!!1!11!";
+        } else {
+          if (widget.isGame) {
+            // Send locally stored games
+            for (final savedGame in savedGames) {
+              Map gameData = jsonDecode(savedGame);
+              var curSheet = ss.worksheetByTitle(_pitWorksheetName);
+              try {
+                if (gameData["isGame"] == "y") {
+                  curSheet = ss.worksheetByTitle(_gameWorksheetName);
+                }
+              } catch (e) {
+                message = "Invalid Save Data";
+              }
+              try {
+                gameData.remove("isGame");
+              } catch (e) {}
+              List<dynamic> values = gameData.values.toList();
+              final curRes = await curSheet!.values.appendRow(values);
+              if (curRes) {
+                message = "Successfully sent saved data!";
+              }
+            }
+            // Clear the saved games after sending them
+            final a = await prefs.setStringList('savedGames', []);
+          }
+
+          if (widget.data.values.isNotEmpty) {
+            // Send current game
+            final values = widget.data.values.toList();
+            print(values);
+            final result = await sheet.values.appendRow(values);
+            if (result) {
+              message = 'Shep collected the data, thanks scout! o7';
+            }
           }
         }
       }
-    }
-    /*} catch (e) {
+    } catch (e) {
       message = 'Could not send data to sheets!';
       print(e);
-    }*/
+    }
 
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text(message)));
