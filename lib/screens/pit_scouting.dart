@@ -4,11 +4,13 @@ import 'package:flutter/services.dart';
 import 'send_data.dart';
 
 class PitScoutingPage extends StatefulWidget {
-  PitScoutingPage({Key? key, required this.title, required this.year})
+  PitScoutingPage(
+      {Key? key, required this.title, required this.year, required this.api})
       : super(key: key);
 
   final String title;
   final int year;
+  final String api;
 
   @override
   _PitScoutingState createState() => _PitScoutingState();
@@ -86,9 +88,9 @@ class _PitScoutingState extends State<PitScoutingPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => SendData(
-                            data: getBunchValues(),
-                            isGame: false,
-                          )),
+                          data: getBunchValues(),
+                          isGame: false,
+                          api: widget.api)),
                 );
               },
             ),

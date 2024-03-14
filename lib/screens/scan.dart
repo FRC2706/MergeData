@@ -10,8 +10,10 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 class ScanResultsPage extends StatefulWidget {
   final String title;
   final int year;
+  final String api;
 
-  ScanResultsPage({Key? key, required this.title, required this.year})
+  ScanResultsPage(
+      {Key? key, required this.title, required this.year, required this.api})
       : super(key: key);
 
   @override
@@ -30,10 +32,8 @@ class _ScanResultsPageState extends State<ScanResultsPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-          builder: (context) => SendData(
-                data: values,
-                isGame: isGame,
-              )),
+          builder: (context) =>
+              SendData(data: values, isGame: isGame, api: widget.api)),
     );
   }
 
