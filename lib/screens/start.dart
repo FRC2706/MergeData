@@ -72,66 +72,6 @@ class _StartState extends State<StartPage> {
     await prefs.remove('savedGames');
   }
 
-  Future<void> saveApiKey(String apiKey) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('apiKey', apiKey);
-  }
-
-  Future<void> promptForApiKey() async {
-    final prefs = await SharedPreferences.getInstance();
-    String apiKey = prefs.getString('apiKey') ?? '';
-    bool obscureText = true;
-
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return AlertDialog(
-              title: Text('Enter API Key'),
-              content: TextField(
-                controller: TextEditingController(text: apiKey),
-                obscureText: obscureText,
-                onChanged: (value) {
-                  apiKey = value;
-                },
-                decoration: InputDecoration(
-                  hintText: "API Key",
-                  suffixIcon: IconButton(
-                    icon: Icon(obscureText ? Icons.visibility_off : Icons.visibility),
-                    onPressed: () {
-                      setState(() {
-                        obscureText = !obscureText;
-                      });
-                    },
-                  ),
-                ),
-              ),
-              actions: [
-                TextButton(
-                  child: Text('Save'),
-                  onPressed: () {
-                    saveApiKey(apiKey);
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('API Key saved.')),
-                    );
-                  },
-                ),
-                TextButton(
-                  child: Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,24 +123,13 @@ class _StartState extends State<StartPage> {
             alignment: Alignment.bottomRight,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  FloatingActionButton(
-                    onPressed: launchIssues,
-                    tooltip: 'Report an issue',
-                    child: Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: SvgPicture.asset("assets/images/github.svg"),
-                    ),
-                  ),
-                  SizedBox(width: 10),
-                  FloatingActionButton(
-                    onPressed: promptForApiKey,
-                    tooltip: 'Enter API Key',
-                    child: Icon(Icons.settings, size: 30.0),
-                  ),
-                ],
+              child: FloatingActionButton(
+                onPressed: launchIssues,
+                tooltip: 'Report an issue',
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SvgPicture.asset("assets/images/github.svg"),
+                ),
               ),
             ),
           ),
