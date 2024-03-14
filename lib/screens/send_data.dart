@@ -87,48 +87,6 @@ class _SendDataState extends State<SendData> {
     await prefs.setStringList('savedGames', savedGames);
   }
 
-  Future<void> validate() async {
-    await loadEnv();
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool isAuthenticated = prefs.getBool('isAuthenticated') ?? false;
-
-    /*if (!isAuthenticated) {
-      String? passcode;
-      await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Enter passcode'),
-            content: TextField(
-              obscureText: true,
-              onChanged: (value) {
-                passcode = value; // Update passcode
-              },
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: const Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-
-      if (passcode == dotenv.env['PASSCODE']) {
-        await prefs.setBool('isAuthenticated', true);
-        sendDataToGoogleSheets();
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Wrong passcode!")),
-        );
-      }
-    } else { // already authenticated
-      sendDataToGoogleSheets();
-    }*/
-  }
 
   Future<void> sendDataToGoogleSheets() async {
     String message = '';
@@ -183,7 +141,6 @@ class _SendDataState extends State<SendData> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: loadEnv(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           return Scaffold(
@@ -358,7 +315,7 @@ class _SendDataState extends State<SendData> {
                                     );
                                   },
                                 );
-                                validate().then((_) { //send to google sheets, but authenticate first
+                                sendDataToGoogleSheets().then((_) {
                                   if (!isCancelled) {
                                     Navigator.of(context).pop();
                                   }
