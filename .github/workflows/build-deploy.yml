@@ -24,6 +24,12 @@ jobs:
     
     - name: Get dependencies
       run: flutter pub get
+
+    - name: Analyze
+      run: flutter analyze
+
+    - name: Test
+      run: flutter test --coverage
     
     - name: Build web release project
       run: flutter build web
