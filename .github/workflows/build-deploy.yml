@@ -24,17 +24,12 @@ jobs:
     
     - name: Get dependencies
       run: flutter pub get
-
-    - name: Create .env file
-      run: |
-        echo GOOGLE_SHEETS_DATA=${{ secrets.GOOGLE_SHEETS_DATA }} >> .env
-        echo SPREADSHEET_ID=${{ secrets.SPREADSHEET_ID }} >> .env
-        echo GAME_WORKSHEET_NAME=${{ secrets.GAME_WORKSHEET_NAME }} >> .env
-        echo PIT_WORKSHEET_NAME=${{ secrets.PIT_WORKSHEET_NAME }} >> .env
-        echo PASSCODE=${{ secrets.PASSCODE }} >> .env
     
     - name: Build web release project
       run: flutter build web
+
+    - name: Create CNAME file
+      run: echo "mergedata.ca" > ./build/web/CNAME
 
     - name: Upload web production-ready build files
       uses: actions/upload-artifact@v2
