@@ -487,7 +487,7 @@ class _MatchScoutingState extends State<MatchScoutingPage> {
                                                   ? 'This field is required'
                                                   : null,
                                             ),
-                                            keyboardType: TextInputType.number,
+                                            //keyboardType: TextInputType.number,
                                             inputFormatters: [
                                               FilteringTextInputFormatter
                                                   .digitsOnly
