@@ -109,11 +109,13 @@
   "PostMatch": [
     {
       "name": "Comments",
-      "type": "text"
+      "type": "text",
+      "required": false
     },
     {
       "name": "Penalities descriptions (if any)",
-      "type": "text"
+      "type": "text",
+      "required": false
     }
   ]
 }

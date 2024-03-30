@@ -3,8 +3,8 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"index.html": "08c5f1cbe963abf0bc41e3b3922adf0b",
-"/": "08c5f1cbe963abf0bc41e3b3922adf0b",
+const RESOURCES = {"index.html": "5dc38550f045992d4e986915390373d0",
+"/": "5dc38550f045992d4e986915390373d0",
 "canvaskit/canvaskit.js": "c86fbd9e7b17accae76e5ad116583dc4",
 "canvaskit/skwasm.js": "445e9e400085faead4493be2224d95aa",
 "canvaskit/skwasm.wasm": "e42815763c5d05bba43f9d0337fa7d84",
@@ -21,7 +21,7 @@ const RESOURCES = {"index.html": "08c5f1cbe963abf0bc41e3b3922adf0b",
 "assets/assets/images/shep-loading.gif": "d053611e8a8e714d93747a1e3b1d0203",
 "assets/assets/images/github.svg": "6088e31b17e2d7066c4ee055db90f8f0",
 "assets/assets/pit/2024.json": "1c7a67b86219fa7ea0eb6ac469f5a8d3",
-"assets/assets/games/2024.json": "9c3e461022b1db157426e3a288207cf1",
+"assets/assets/games/2024.json": "cb6475bbea4aee9b609d2b72a7ef49b9",
 "assets/AssetManifest.bin": "0cfe97046b6fc8f3d3c31b55c02328a1",
 "assets/NOTICES": "eeaf444c38cf2246155fdb22c32f6d8a",
 "assets/shaders/ink_sparkle.frag": "ecc85a2e95f5e9f53123dcaf8cb9b6ce",
