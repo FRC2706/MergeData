@@ -7,8 +7,14 @@
     },
     {
       "name": "Event",
-      "choices": ["Newmarket", "North Bay", "District Champs"],
+      "choices": ["DCMP", "Worlds", "Newmarket", "North Bay"],
       "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Robot",
+      "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
+      "required": false,
       "type": "radio"
     },
     {
@@ -17,30 +23,32 @@
       "type": "number"
     },
     {
-      "name": "Robot",
-      "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
+      "name": "Team #",
       "required": true,
-      "type": "radio"
+      "type": "number"
     },
     {
       "name": "Starting Postition",
-      "choices": ["1", "2", "3"],
-      "required": true,
-      "type": "radio"
-    },
-    {
-      "name": "Team #",
+      "choices": ["1", "2", "3", "4", "N/A"],
       "required": false,
-      "type": "number"
+      "type": "radio"
     }
   ],
   "Autonomous": [
     {
-      "name": "Leave Starting Zone",
+      "name": "Crossed Starting Line",
       "type": "bool"
     },
     {
-      "name": "Notes Picked Up",
+      "name": "Auto Notes Picked Up",
+      "type": "counter"
+    },
+    {
+      "name": "Auto Notes Failed to pick up",
+      "type": "counter"
+    },
+    {
+      "name": "Auto Speaker Scores",
       "type": "counter"
     },
     {
@@ -48,72 +56,91 @@
       "type": "counter"
     },
     {
-      "name": "Auto Speaker Scores",
+      "name": "Missed Shots",
       "type": "counter"
+    },
+    {
+      "name": "Comments on Auto",
+      "type": "text"
     }
   ],
   "TeleOp": [
     {
-      "name": "Picked UP: Ground",
+      "name": "Notes Picked Up",
       "type": "counter"
     },
     {
-      "name": "Picked Up: Source",
+      "name": "Notes Dropped",
       "type": "counter"
     },
     {
-      "name": "Notes: Dropped",
+      "name": "Speaker Score",
       "type": "counter"
     },
     {
-      "name": "Amp: Scores",
+      "name": "Speaker Missed",
       "type": "counter"
     },
     {
-      "name": "Amp Misses",
+      "name": "AMP Score",
       "type": "counter"
     },
     {
-      "name": "Speaker: Scores",
+      "name": "AMP Missed",
       "type": "counter"
-    },
-    {
-      "name": "Speaker: Misses",
-      "type": "counter"
-    },
-    {
-      "name": "Pickup From",
-      "type": "radio",
-      "choices": ["Source", "Floor", "Both", "Not Attempted"],
-      "required": true
-    },
-    {
-      "name": "Died :( [time is logged when clicked]",
-      "type": "bool"
     }
   ],
   "EndGame": [
     {
-      "name": "Final Status",
-      "type": "radio",
-      "required": true,
-      "choices": ["Parked (touching stage)", "Onstage (climb)", "Harmony (climb with friend)", "Onstage (Spotlit)", "Attempted but failed :(", "Not attempted"]
+      "name": "Trap Score",
+      "type": "counter"
     },
     {
-      "name": "Note in Trap",
+      "name": "Trap Fails",
+      "type": "counter"
+    },
+    {
+      "name": "Ending Position",
       "type": "radio",
-      "required": true,
-      "choices": ["Not attempted", "Yes", "Attempted, but failed"]
+      "required": false,
+      "choices": ["None", "Parked", "Onstage (climb)", "Harmonized (climb with friend)", "Spotlight (human player bonus)", "Attempted but failed"]
     }
   ],
   "PostMatch": [
     {
-      "name": "Comments",
+      "name": "Picked up from",
+      "type": "radio",
+      "required": true,
+      "choices": ["Ground", "Source", "Both"]
+    },
+    {
+      "name": "Defense Rating",
+      "type": "radio",
+      "required": true,
+      "choices": ["1", "2", "3", "4", "5", "N/A"]
+    },
+    {
+      "name": "Ability to withstand defence",
+      "type": "radio",
+      "required": true,
+      "choices": ["1", "2", "3", "4", "5", "N/A"]
+    },
+    {
+      "name": "Were they heavily defended during the match?",
+      "required": true,
+      "type": "bool"
+    },
+    {
+      "name": "Did they die during the match?",
+      "type": "bool"
+    },
+    {
+      "name": "Penalities (if any)",
       "type": "text",
       "required": false
     },
-    {
-      "name": "Penalities descriptions (if any)",
+        {
+      "name": "Comments",
       "type": "text",
       "required": false
     }
