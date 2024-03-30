@@ -7,7 +7,7 @@
     },
     {
       "name": "Event",
-      "choices": ["Newmarket", "North Bay"],
+      "choices": ["Newmarket", "North Bay", "District Champs"],
       "required": true,
       "type": "radio"
     },
