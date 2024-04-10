@@ -1,40 +1,11 @@
 {
-  "Pre-Match": [
-    {
-      "name": "Scouter Initials",
-      "required": true,
-      "type": "text"
-    },
-    {
-      "name": "Event",
-      "choices": ["DCMP", "Worlds", "Newmarket", "North Bay"],
-      "required": true,
-      "type": "radio"
-    },
-    {
-      "name": "Robot",
-      "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
-      "required": false,
-      "type": "radio"
-    },
-    {
-      "name": "Match #",
-      "required": true,
-      "type": "number"
-    },
-    {
-      "name": "Team #",
-      "required": true,
-      "type": "number"
-    },
-    {
-      "name": "Starting Postition",
-      "choices": ["1", "2", "3", "4", "N/A"],
-      "required": false,
-      "type": "radio"
-    }
-  ],
   "Autonomous": [
+    {
+        "name": "Starting Postition",
+        "choices": ["1", "2", "3", "4", "N/A"],
+        "required": false,
+        "type": "radio"
+    },
     {
       "name": "Crossed Starting Line",
       "type": "bool"
