@@ -9,4 +9,4 @@ Coming soon <sup>TM</sup>
 This project is under the Apache 2.0 license, please read the `LICENSE` file for more information.
 
 ## Support
-hehe
+For support, bug reports, or feature requests, please create an issue [here](https://github.com/FRC2706/MergeData/issues).
