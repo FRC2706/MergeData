@@ -1,7 +1,7 @@
 # MergeData
 #### A scouting app for the FIRST Robotics Competition developed by Team 2706 Merge Robotics.
 
-<a href="https://mergedata.ca">View App</a> . <a href="#quickstart">Quick Start Guide</a> . <a href="#faq">Frequently Asked Questions</a>
+<a href="https://mergedata.ca">View App</a> · <a href="#quickstart">Quick Start Guide</a> · <a href="#faq">Frequently Asked Questions</a>
 
 <details>
   <summary>Table of Contents</summary>
@@ -24,7 +24,7 @@
 ### **Universal**
 * We use Flutter, a framework compatible with most platforms, including iOS, Android, and in a web browser.
 ### **Google Sheets Integration**
-* Scouts can save and send data to a Google Sheets spreadsheet after the scouting is done.
+* Scouts can save and send data to a Google Sheets spreadsheet once scouting is done.
 
 <div id="app"></div>
 
