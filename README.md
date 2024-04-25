@@ -32,6 +32,7 @@
 Our app is hosted on GitHub Pages at https://mergedata.ca. It is also available on the <a href="https://apps.apple.com/ca/app/mergedata/id6498867130">Apple App Store</a> and as an <a href="https://github.com/FRC2706/MergeData/releases/latest">APK</a> for Android devices.
 
 <div id="description"></div>
+
 ## Description
 MergeData is a modular FRC scouting app that is designed to be run on any device, including devices running iOS, Android, Windows, GNU/Linux, and macOS. Every season, a configuration file (JSON) gets created which allows the scouting questions to be easily changed to collect any data that is important for your team's scouting strategy. When done scouting, the data can be saved locally, scanned by other devices via a QR code, or uploaded to a Google Sheets spreadsheet. 
 
