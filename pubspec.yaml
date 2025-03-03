@@ -69,12 +69,12 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/games/2024.json
-    #- assets/games/2025.json
+    - assets/games/2025.json
     #- assets/games/2026.json
     #- assets/games/2027.json
     #- assets/games/2028.json
     - assets/pit/2024.json
-    #- assets/pit/2025.json
+    - assets/pit/2025.json
     #- assets/pit/2026.json
     #- assets/pit/2027.json
     #- assets/pit/2028.json

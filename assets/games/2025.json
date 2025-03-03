@@ -1,0 +1,178 @@
+{
+  "Pre-Match": [
+    {
+      "name": "Scouter Name",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Event",
+      "choices": ["Niagara", "North Bay", "DCMP"],
+      "required": true,
+      "type": "radio"
+    },
+    {
+      "name": "Alliance Station",
+      "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "name": "Match #",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "name": "Team #",
+      "required": true,
+      "type": "number"
+    },
+    {
+      "name": "Starting Postition",
+      "choices": ["Left", "Middle", "Right"],
+      "required": true,
+      "type": "radio"
+    }
+  ],
+
+  "Autonomous": [
+    {
+      "name": "Crossed Starting Line",
+      "type": "bool"
+    },
+    {
+        "name": "Auto Coral scored on L1 (bottom)",
+        "type": "counter"
+    },
+    {
+        "name": "Auto Coral scored on L2 (branch)",
+        "type": "counter"
+    },
+    {
+        "name": "Auto Coral scored on L3 (branch)",
+        "type": "counter"
+    },
+    {
+        "name": "Auto Coral scored on L4 (branch)",
+        "type": "counter"
+    },
+    {
+      "name": "Auto # of Coral Dropped",
+      "type": "counter"
+    },
+    {
+      "name": "Auto Coral Pickup Location",
+      "type": "radio",
+      "required": true,
+      "choices": ["Floor", "Human Player Sation", "Both"]
+    },
+    {
+      "name": "Auto # of Algae Removed from Reef",
+      "type": "counter"
+    },
+    {
+      "name": "Auto # of Algae scored in Processor",
+      "type": "counter"
+    },
+    {
+      "name": "Auto # of Algae scored in Net",
+      "type": "counter"
+    },
+    {
+      "name": "Auto # of Algae Dropped",
+      "type": "counter"
+    },
+    {
+      "name": "Comments on Auto",
+      "type": "text"
+    }
+  ],
+
+  "TeleOp": [
+    {
+        "name": "TeleOp Coral scored on L1 (bottom)",
+        "type": "counter"
+    },
+    {
+        "name": "TeleOp Coral scored on L2 (branch)",
+        "type": "counter"
+    },
+    {
+        "name": "TeleOp Coral scored on L3 (branch)",
+        "type": "counter"
+    },
+    {
+        "name": "TeleOp Coral scored on L4 (branch)",
+        "type": "counter"
+    },
+    {
+      "name": "TeleOp Coral Dropped",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Coral Pickup Location",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Algae Harvested from Reef",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Algae scored in Processor",
+      "type": "counter"
+    },
+    {
+      "name": "TeleOp Algae Scored in Net by Robot",
+      "type": "counter"
+    },
+    {
+      "name": "Teleop Algae Dropped",
+      "type": "counter"
+    }
+  ],
+
+
+
+  "EndGame": [
+    {
+      "name": "Attempted Climb?",
+      "type": "bool"
+    },
+    {
+      "name": "Ending Position",
+      "type": "radio",
+      "required": false,
+      "choices": ["None", "Parked", "High Climb", "Low Climb"]
+    }
+  ],
+
+
+  "PostMatch": [
+    {
+      "name": "Defence Rating",
+      "type": "radio",
+      "required": true,
+      "choices": ["1", "2", "3", "4", "5", "N/A"]
+    },
+    {
+      "name": "Ability to withstand defence",
+      "type": "radio",
+      "required": true,
+      "choices": ["1", "2", "3", "4", "5", "N/A"]
+    },
+    {
+      "name": "Did they die during the match?",
+      "type": "bool"
+    },
+    {
+      "name": "Main Cycle",
+      "type": "text",
+      "required": false
+    }, 
+    {
+      "name": "Comments",
+      "type": "text",
+      "required": false
+    }
+  ]
+}

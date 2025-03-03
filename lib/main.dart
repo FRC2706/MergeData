@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:merge_data/screens/start.dart';
 
-const CURRENT_YEAR = 2024;
+const CURRENT_YEAR = 2025;
 const API_ENDPOINT = "https://ryanidkproductions.com/api/mergedata";
 
 void main() {
