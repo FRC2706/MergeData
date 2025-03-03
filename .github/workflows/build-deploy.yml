@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+      - ryan-2025-update
   pull_request:
     branches:
       - main
@@ -12,80 +13,80 @@ jobs:
   build_web_and_apk:
     name: Build Web and APK
     runs-on: ubuntu-latest
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    
-    - name: Install Flutter
-      uses: subosito/flutter-action@v1
-      with:
-        flutter-version: '3.x'
-    
-    - name: Get dependencies
-      run: flutter pub get
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Test
-      run: flutter test --coverage
-    
-    - name: Build web release project
-      run: flutter build web
+      - name: Install Flutter
+        uses: subosito/flutter-action@v1
+        with:
+          flutter-version: "3.x"
 
-    - name: Create CNAME file
-      run: echo "mergedata.ca" > ./build/web/CNAME
+      - name: Get dependencies
+        run: flutter pub get
 
-    - name: Upload web production-ready build files
-      uses: actions/upload-artifact@v2
-      with:
-        name: production-files
-        path: ./build/web
+      - name: Test
+        run: flutter test --coverage
 
-    - name: Deploy to GitHub Pages
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: peaceiris/actions-gh-pages@v4
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build/web
+      - name: Build web release project
+        run: flutter build web
 
-    - name: Build APK
-      run: flutter build apk --release
+      - name: Create CNAME file
+        run: echo "mergedata.ca" > ./build/web/CNAME
 
-    - name: Rename APK
-      run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/MergeData.apk
+      - name: Upload web production-ready build files
+        uses: actions/upload-artifact@v2
+        with:
+          name: production-files
+          path: ./build/web
 
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
-      with:
-        name: MergeData.apk
-        path: build/app/outputs/flutter-apk/MergeData.apk
+      - name: Deploy to GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
 
-    - name: Bump version and push tag
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      id: create_tag
-      uses: mathieudutour/github-tag-action@v6.2
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        default_bump: patch
+      - name: Build APK
+        run: flutter build apk --release
 
-    - name: Create Release
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.create_tag.outputs.new_tag }}
-        release_name: Release ${{ steps.create_tag.outputs.new_tag }}
-        draft: false
-        prerelease: false
+      - name: Rename APK
+        run: mv build/app/outputs/flutter-apk/app-release.apk build/app/outputs/flutter-apk/MergeData.apk
 
-    - name: Upload Release Asset
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./build/app/outputs/flutter-apk/MergeData.apk
-        asset_name: MergeData.apk
-        asset_content_type: application/vnd.android.package-archive
+      - name: Upload APK
+        uses: actions/upload-artifact@v2
+        with:
+          name: MergeData.apk
+          path: build/app/outputs/flutter-apk/MergeData.apk
+
+      - name: Bump version and push tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: create_tag
+        uses: mathieudutour/github-tag-action@v6.2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          default_bump: patch
+
+      - name: Create Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.create_tag.outputs.new_tag }}
+          release_name: Release ${{ steps.create_tag.outputs.new_tag }}
+          draft: false
+          prerelease: false
+
+      - name: Upload Release Asset
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/MergeData.apk
+          asset_name: MergeData.apk
+          asset_content_type: application/vnd.android.package-archive
