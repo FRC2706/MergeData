@@ -1,0 +1,55 @@
+{
+  "Pit": [
+    {
+      "name": "Scout name",
+      "required": true,
+      "type": "text"
+    },
+    {
+      "name": "Team number",
+      "required": false,
+      "type": "number"
+    },
+    {
+      "name": "Weight (lbs)",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Drivetrain type",
+      "choices": ["Swerve", "Tank", "Butterfly/Grasshopper", "Mecanum", "Other"],
+      "required": false,
+      "type": "radio"
+    },
+    {
+      "name": "Other drivetrain",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Where can you pick up from?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Autos",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Where can they score?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Endgame: Can they climb?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Other comments",
+      "required": false,
+      "type": "text"
+    }
+  ]
+}
