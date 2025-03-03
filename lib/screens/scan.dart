@@ -5,7 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/services.dart';
 import 'package:merge_data/screens/send_data.dart';
-import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:qr_code_scanner_plus/qr_code_scanner_plus.dart';
 
 class ScanResultsPage extends StatefulWidget {
   final String title;
