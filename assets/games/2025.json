@@ -6,12 +6,6 @@
       "type": "text"
     },
     {
-      "name": "Event",
-      "choices": ["Niagara", "North Bay", "DCMP"],
-      "required": true,
-      "type": "radio"
-    },
-    {
       "name": "Alliance Station",
       "choices": ["Red 1", "Red 2", "Red 3", "Blue 1", "Blue 2", "Blue 3"],
       "required": false,
@@ -37,7 +31,7 @@
 
   "Autonomous": [
     {
-      "name": "Crossed Starting Line",
+      "name": "Moved in Auto",
       "type": "bool"
     },
     {
@@ -59,12 +53,6 @@
     {
       "name": "Auto # of Coral Dropped",
       "type": "counter"
-    },
-    {
-      "name": "Auto Coral Pickup Location",
-      "type": "radio",
-      "required": true,
-      "choices": ["Floor", "Human Player Sation", "Both"]
     },
     {
       "name": "Auto # of Algae Removed from Reef",
@@ -110,10 +98,6 @@
       "type": "counter"
     },
     {
-      "name": "TeleOp Coral Pickup Location",
-      "type": "counter"
-    },
-    {
       "name": "TeleOp Algae Harvested from Reef",
       "type": "counter"
     },
@@ -142,7 +126,7 @@
       "name": "Ending Position",
       "type": "radio",
       "required": false,
-      "choices": ["None", "Parked", "High Climb", "Low Climb"]
+      "choices": ["None", "Parked", "Deep Cage (low)", "Shallow Cage (high)"]
     }
   ],
 
@@ -152,23 +136,18 @@
       "name": "Defence Rating",
       "type": "radio",
       "required": true,
-      "choices": ["1", "2", "3", "4", "5", "N/A"]
+      "choices": ["N/A", "1", "2", "3", "4", "5"]
     },
     {
       "name": "Ability to withstand defence",
       "type": "radio",
       "required": true,
-      "choices": ["1", "2", "3", "4", "5", "N/A"]
+      "choices": ["N/A", "1", "2", "3", "4", "5"]
     },
     {
       "name": "Did they die during the match?",
       "type": "bool"
     },
-    {
-      "name": "Main Cycle",
-      "type": "text",
-      "required": false
-    }, 
     {
       "name": "Comments",
       "type": "text",
