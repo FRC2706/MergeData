@@ -11,11 +11,6 @@
       "type": "number"
     },
     {
-      "name": "Weight (lbs)",
-      "required": false,
-      "type": "text"
-    },
-    {
       "name": "Drivetrain type",
       "choices": ["Swerve", "Tank", "Butterfly/Grasshopper", "Mecanum", "Other"],
       "required": false,
@@ -27,22 +22,32 @@
       "type": "text"
     },
     {
-      "name": "Where can you pick up from?",
+      "name": "Do you have auto? If so what can you do?",
       "required": false,
       "type": "text"
     },
     {
-      "name": "Autos",
+      "name": "Can you score coral? If so what levels?",
       "required": false,
       "type": "text"
     },
     {
-      "name": "Where can they score?",
+      "name": "Where can you pick up coral?",
       "required": false,
       "type": "text"
     },
     {
-      "name": "Endgame: Can they climb?",
+      "name": "Can you harvest algae from the reef?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Can you score algae in the barge/processor?",
+      "required": false,
+      "type": "text"
+    },
+    {
+      "name": "Can you climb? If so, which level?",
       "required": false,
       "type": "text"
     },
