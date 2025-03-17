@@ -43,6 +43,9 @@ dependencies:
   gsheets: ^0.5.0
   shared_preferences: ^2.5.2
 
+dependency_overrides:
+  win32: ^5.5.4
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
