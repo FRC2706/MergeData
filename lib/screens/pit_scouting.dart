@@ -129,89 +129,96 @@ class _PitScoutingState extends State<PitScoutingPage> {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(8),
-        itemCount: formFields['Pit']?.length ?? 0,
+        itemCount: formFields['Pit']?.length + 1 ?? 0,
         itemBuilder: (BuildContext context, int index) {
-          var field = formFields['Pit'][index];
-          bool showError = fieldErrors[field['name']] ?? false;
-          if (field['type'] == 'number') {
-            return Column(
-              children: [
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  initialValue:
-                      textValues[field['name']] ?? '', // Use the stored value
-                  decoration: InputDecoration(
-                    labelText: field['name'],
-                    errorText: showError ? 'This field is required' : null,
-                  ),
-                  onChanged: (value) {
-                    if (field['required'] && (value == null || value.isEmpty)) {
-                      fieldErrors[field['name']] = true;
-                    } else {
-                      fieldErrors[field['name']] = false;
-                    }
-                    textValues[field['name']] = value; // Update textValues
-                    setState(() {});
-                  },
-                ),
-              ],
-            );
-          } else if (field['type'] == 'text') {
-            return Column(
-              children: [
-                TextFormField(
-                  initialValue:
-                      textValues[field['name']] ?? '', // Use the stored value
-                  decoration: InputDecoration(
-                    labelText: field['name'],
-                    errorText: showError ? 'This field is required' : null,
-                  ),
-                  onChanged: (value) {
-                    if (field['required'] && (value == null || value.isEmpty)) {
-                      fieldErrors[field['name']] = true;
-                    } else {
-                      fieldErrors[field['name']] = false;
-                    }
-                    textValues[field['name']] = value; // Update textValues
-                    setState(() {});
-                  },
-                ),
-              ],
-            );
-          } else if (field['type'] == 'radio') {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  field['name'],
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                ...field['choices'].map<Widget>((choice) {
-                  return ListTile(
-                    title: Text(choice),
-                    leading: Radio<String>(
-                      value: choice,
-                      groupValue: radioValues[field['name']],
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          setState(() {
-                            radioValues[field['name']] = value;
-                            fieldErrors[field['name']] = false;
-                          });
-                        }
-                      },
+          if (index != formFields['Pit']?.length) {
+            var field = formFields['Pit'][index];
+            bool showError = fieldErrors[field['name']] ?? false;
+            if (field['type'] == 'number') {
+              return Column(
+                children: [
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    initialValue:
+                        textValues[field['name']] ?? '', // Use the stored value
+                    decoration: InputDecoration(
+                      labelText: field['name'],
+                      errorText: showError ? 'This field is required' : null,
                     ),
-                  );
-                }).toList(),
-                showError
-                    ? Text('This field is required',
-                        style: TextStyle(color: Colors.red))
-                    : SizedBox.shrink(),
-              ],
-            );
+                    onChanged: (value) {
+                      if (field['required'] &&
+                          (value == null || value.isEmpty)) {
+                        fieldErrors[field['name']] = true;
+                      } else {
+                        fieldErrors[field['name']] = false;
+                      }
+                      textValues[field['name']] = value; // Update textValues
+                      setState(() {});
+                    },
+                  ),
+                ],
+              );
+            } else if (field['type'] == 'text') {
+              return Column(
+                children: [
+                  TextFormField(
+                    initialValue:
+                        textValues[field['name']] ?? '', // Use the stored value
+                    decoration: InputDecoration(
+                      labelText: field['name'],
+                      errorText: showError ? 'This field is required' : null,
+                    ),
+                    onChanged: (value) {
+                      if (field['required'] &&
+                          (value == null || value.isEmpty)) {
+                        fieldErrors[field['name']] = true;
+                      } else {
+                        fieldErrors[field['name']] = false;
+                      }
+                      textValues[field['name']] = value; // Update textValues
+                      setState(() {});
+                    },
+                  ),
+                ],
+              );
+            } else if (field['type'] == 'radio') {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    field['name'],
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  ...field['choices'].map<Widget>((choice) {
+                    return ListTile(
+                      title: Text(choice),
+                      leading: Radio<String>(
+                        value: choice,
+                        groupValue: radioValues[field['name']],
+                        onChanged: (String? value) {
+                          if (value != null) {
+                            setState(() {
+                              radioValues[field['name']] = value;
+                              fieldErrors[field['name']] = false;
+                            });
+                          }
+                        },
+                      ),
+                    );
+                  }).toList(),
+                  showError
+                      ? Text('This field is required',
+                          style: TextStyle(color: Colors.red))
+                      : SizedBox.shrink(),
+                ],
+              );
+            } else {
+              return SizedBox
+                  .shrink(); // Return an empty widget for unsupported field types
+            }
           } else {
-            return SizedBox
-                .shrink(); // Return an empty widget for unsupported field types
+            return Text(
+                "Please send pictures of the robot to the scouting channel");
           }
         },
       ),
